@@ -812,7 +812,7 @@
         window.contactBusiness = function(businessId) {
             const business = businesses.find(b => b.id === businessId);
             if (business) {
-                window.open('https://wa.me/51' + business.phone.replace(/\D/g, ''), '_blank');
+                showToast(' Abriendo WhatsApp ' + business.name + '...', '_blank');
             }
         };
 
