@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - SUMAK</title>
+     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="images/SumakLogo_.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/SumakLogo_.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/SumakLogo_.png">
+    <link rel="shortcut icon" href="images/SumakLogo_.png">
+    
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- 
+        USER STORY US-012: Recuperar acceso con código SMS
+        USER STORY US-035: Perfil del usuario
+        Criterios: Login con email y contraseña, recuperación por SMS
+    -->
+    <div class="auth-page">
+        <div class="auth-page__container">
+            <!-- Formulario de Login -->
+            <div class="auth-page__form">
+                <div class="auth-form">
+                    <div class="auth-form__logo">
+                        <a href="index.html">
+                            <img src="images/SumakLogo_.png" alt="SUMAK Logo">
+                        </a>
+                    </div>
+
+                    <div class="auth-form__header">
+                        <h1 class="auth-form__title">¡Bienvenido de vuelta!</h1>
+                        <p class="auth-form__subtitle">Ingresa a tu cuenta SUMAK</p>
+                    </div>
+
+                    <form id="login-form" class="form" novalidate>
+                        <div class="form__group">
+                            <label for="login-email" class="form__label">
+                                Correo electrónico
+                            </label>
+                            <input 
+                                type="email" 
+                                id="login-email" 
+                                name="email"
+                                class="form__input" 
+                                placeholder="correo@ejemplo.com"
+                                required
+                                autocomplete="email"
+                            >
+                            <span class="form__error" id="email-error"></span>
+                        </div>
+
+                        <div class="form__group">
+                            <label for="login-password" class="form__label">
+                                Contraseña
+                            </label>
+                            <div class="form__input-wrapper">
+                                <input 
+                                    type="password" 
+                                    id="login-password" 
+                                    name="password"
+                                    class="form__input" 
+                                    placeholder="Tu contraseña"
+                                    required
+                                    autocomplete="current-password"
+                                >
+                                <button 
+                                    type="button" 
+                                    class="form__toggle-password" 
+                                    aria-label="Mostrar contraseña"
+                                >
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2"/>
+                                        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <span class="form__error" id="password-error"></span>
+                        </div>
+
+                        <div class="form__group">
+                            <div class="form__options">
+                                <label class="form__checkbox">
+                                    <input type="checkbox" name="remember">
+                                    <span class="form__checkbox-label">Recordarme</span>
+                                </label>
+                                <a href="#" id="forgot-password" class="form__link">¿Olvidaste tu contraseña?</a>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn--primary btn--full">
+                            Iniciar Sesión
+                        </button>
+
+                        <!-- Mensajes de éxito y error -->
+                        <div class="form__message form__message--success" id="login-success" style="display: none;">
+                        </div>
+
+                        <div class="form__message form__message--error" id="login-error" style="display: none;">
+                        </div>
+                    </form>
+
+                    <p class="auth-form__footer">
+                        ¿No tienes cuenta? 
+                        <a href="register.html" class="form__link--bold">Regístrate gratis</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Columna Derecha: Visual -->
+            <div class="auth-page__visual">
+                <div class="auth-visual">
+                    <div class="auth-visual__content">
+                        <h2 class="auth-visual__title">Continúa tu camino hacia el éxito</h2>
+                        <p class="auth-visual__description">
+                            Miles de microemprendedores ya están transformando sus negocios con SUMAK
+                        </p>
+                        
+                        <ul class="auth-visual__features">
+                            <li class="feature-item">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+                                    <polyline points="22 4 12 14.01 9 11.01"/>
+                                </svg>
+                                <span>Microtareas diarias de 10 minutos</span>
+                            </li>
+                            <li class="feature-item">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+                                    <polyline points="22 4 12 14.01 9 11.01"/>
+                                </svg>
+                                <span>Aprende sin conexión constante</span>
+                            </li>
+                            <li class="feature-item">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+                                    <polyline points="22 4 12 14.01 9 11.01"/>
+                                </svg>
+                                <span>Certifícate como emprendedor</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Recuperar Contraseña -->
+    <div class="modal" id="recovery-modal">
+        <div class="modal__overlay"></div>
+        <div class="modal__container">
+            <div class="modal__header">
+                <h2 class="modal__title">Recuperar Contraseña</h2>
+                <button class="modal__close" aria-label="Cerrar modal">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="modal__body">
+                <p style="margin-bottom: var(--spacing-lg); color: var(--color-text-secondary);">
+                    Ingresa tu correo electrónico y te enviaremos un código de 6 dígitos por SMS para restablecer tu contraseña.
+                </p>
+
+                <form id="recovery-form" class="form">
+                    <div class="form__group">
+                        <label for="recovery-email" class="form__label">
+                            Correo electrónico
+                        </label>
+                        <input 
+                            type="email" 
+                            id="recovery-email" 
+                            name="email"
+                            class="form__input" 
+                            placeholder="correo@ejemplo.com"
+                            required
+                        >
+                    </div>
+
+                    <button type="submit" class="btn btn--primary btn--full">
+                        Enviar Código
+                    </button>
+
+                    <div class="form__message form__message--success" id="recovery-success" style="display: none; margin-top: var(--spacing-md);">
+                    </div>
+
+                    <div class="form__message form__message--error" id="recovery-error" style="display: none; margin-top: var(--spacing-md);">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

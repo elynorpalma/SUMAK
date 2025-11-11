@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Panel - SUMAK</title>
+     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="images/SumakLogo_.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/SumakLogo_.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/SumakLogo_.png">
+    <link rel="shortcut icon" href="images/SumakLogo_.png">
+    
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        /* Estilos específicos del dashboard */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+            background-color: var(--color-background);
+        }
+
+        .sidebar {
+            background-color: var(--color-surface);
+            padding: var(--spacing-lg);
+            border-right: 1px solid var(--color-border);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar__header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-xl);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .sidebar__logo {
+            width: 40px;
+            height: 40px;
+        }
+
+        .sidebar__brand {
+            font-family: var(--font-family-primary);
+            font-size: 1.5rem;
+            font-weight: var(--font-weight-black);
+            color: var(--color-primary);
+        }
+
+        .sidebar__nav {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+        }
+
+        .sidebar__link {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm);
+            color: var(--color-text-secondary);
+            border-radius: var(--border-radius-md);
+            transition: all var(--transition-fast);
+        }
+
+        .sidebar__link:hover,
+        .sidebar__link--active {
+            background-color: var(--color-primary-lightest);
+            color: var(--color-primary);
+        }
+
+        .sidebar__link svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .main-content {
+            padding: var(--spacing-xl);
+            overflow-y: auto;
+        }
+
+        .dashboard-header {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .dashboard-header__top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .dashboard-header__title {
+            font-size: 2rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .dashboard-header__subtitle {
+            color: var(--color-text-secondary);
+        }
+
+        .dashboard-header__actions {
+            display: flex;
+            gap: var(--spacing-sm);
+            align-items: center;
+        }
+
+        .icon-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius-full);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            position: relative;
+        }
+
+        .icon-button:hover {
+            background-color: var(--color-primary-lightest);
+            border-color: var(--color-primary);
+        }
+
+        .icon-button__badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 4px;
+            background-color: var(--color-error);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: var(--font-weight-semibold);
+            border-radius: var(--border-radius-full);
+        }
+
+        .user-menu {
+            position: relative;
+        }
+
+        .user-menu__toggle {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: 0.5rem 1rem;
+            background-color: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius-full);
+            cursor: pointer;
+        }
+
+        .user-menu__avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background-color: var(--color-primary);
+            color: white;
+            font-weight: var(--font-weight-semibold);
+            border-radius: var(--border-radius-full);
+        }
+
+        .user-menu__dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            right: 0;
+            min-width: 200px;
+            background-color: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-lg);
+            z-index: var(--z-index-dropdown);
+        }
+
+        .user-menu__dropdown.is-open {
+            display: block;
+        }
+
+        .user-menu__item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-md);
+            color: var(--color-text-primary);
+            transition: background-color var(--transition-fast);
+        }
+
+        .user-menu__item:hover {
+            background-color: var(--color-background);
+        }
+
+        .user-menu__item--danger {
+            color: var(--color-error);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .stat-card {
+            padding: var(--spacing-lg);
+            background-color: var(--color-surface);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stat-card__label {
+            font-size: var(--font-size-small);
+            color: var(--color-text-tertiary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .stat-card__value {
+            font-family: var(--font-family-primary);
+            font-size: 2rem;
+            font-weight: var(--font-weight-black);
+            color: var(--color-primary);
+        }
+
+        .stat-card__change {
+            font-size: var(--font-size-small);
+            color: var(--color-success);
+            margin-top: var(--spacing-xs);
+        }
+
+        .progress-section {
+            padding: var(--spacing-lg);
+            background-color: var(--color-surface);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .progress-section__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background-color: var(--color-background);
+            border-radius: var(--border-radius-full);
+            overflow: hidden;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .progress-bar__fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+            border-radius: var(--border-radius-full);
+            transition: width 1s ease-out;
+        }
+
+        .tasks-section {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: var(--font-weight-bold);
+        }
+
+        .tasks-grid {
+            display: grid;
+            gap: var(--spacing-md);
+        }
+
+        .task-card {
+            padding: var(--spacing-lg);
+            background-color: var(--color-surface);
+            border: 2px solid var(--color-border);
+            border-radius: var(--border-radius-lg);
+            transition: all var(--transition-normal);
+        }
+
+        .task-card:hover {
+            border-color: var(--color-primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .task-card__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .task-card__badge {
+            padding: 0.25rem 0.75rem;
+            font-size: var(--font-size-small);
+            font-weight: var(--font-weight-semibold);
+            border-radius: var(--border-radius-full);
+        }
+
+        .task-card__badge--alta {
+            background-color: #FFEBEE;
+            color: var(--color-error);
+        }
+
+        .task-card__badge--media {
+            background-color: #FFF3E0;
+            color: var(--color-warning);
+        }
+
+        .task-card__badge--baja {
+            background-color: #E3F2FD;
+            color: var(--color-info);
+        }
+
+        .task-card__category {
+            font-size: var(--font-size-small);
+            color: var(--color-text-tertiary);
+            text-transform: uppercase;
+        }
+
+        .task-card__title {
+            font-size: 1.125rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .task-card__meta {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-small);
+            color: var(--color-text-secondary);
+        }
+
+        .task-card__time,
+        .task-card__difficulty {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .task-card__actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: var(--spacing-2xl);
+            color: var(--color-text-secondary);
+        }
+
+        .empty-state svg {
+            margin-bottom: var(--spacing-md);
+            color: var(--color-text-tertiary);
+        }
+
+        .empty-state h3 {
+            margin-bottom: var(--spacing-xs);
+        }
+
+        @media (max-width: 767px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                padding: var(--spacing-md);
+            }
+
+            .dashboard-header__top {
+                flex-direction: column;
+                gap: var(--spacing-md);
+                align-items: flex-start;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .task-card__actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        DASHBOARD DEL EMPRENDEDOR
+        US-020: Recibir microtareas prácticas y accionables
+        US-022: Ver progreso y métricas simples
+        US-014: Panel de progreso gamificado
+    -->
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar__header">
+                <img src="images/SumakLogo_.png" alt="SUMAK" class="sidebar__logo">
+                <span class="sidebar__brand">SUMAK</span>
+            </div>
+
+            <nav class="sidebar__nav">
+                <a href="#" class="sidebar__link sidebar__link--active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                    </svg>
+                    <span>Inicio</span>
+                </a>
+                <a href="#" class="sidebar__link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 11l3 3L22 4"/>
+                        <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+                    </svg>
+                    <span>Mis Tareas</span>
+                </a>
+                <a href="#" class="sidebar__link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                    <span>Mis Logros</span>
+                </a>
+                <a href="recursos.html" class="sidebar__link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+                    </svg>
+                    <span>Recursos</span>
+                </a>
+                <a href="mentores.html" class="sidebar__link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="8" r="5"/>
+                        <path d="M20 21a8 8 0 10-16 0"/>
+                    </svg>
+                    <span>Mentores</span>
+                </a>
+                <a href="#" class="sidebar__link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                    </svg>
+                    <span>Mensajes</span>
+                </a>
+                <a href="contacto.html" class="sidebar__link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                    <span>Ayuda</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Contenido Principal -->
+        <main class="main-content">
+            <!-- Header del Dashboard -->
+            <header class="dashboard-header">
+                <div class="dashboard-header__top">
+                    <div>
+                        <h1 class="dashboard-header__title">
+                            ¡Hola, <span data-user-name>Usuario</span>! 👋
+                        </h1>
+                        <p class="dashboard-header__subtitle">
+                            Bienvenido a tu panel de <span data-business-name>Negocio</span>
+                        </p>
+                    </div>
+
+                    <div class="dashboard-header__actions">
+                        <!-- Notificaciones -->
+                        <div class="notifications">
+                            <button class="icon-button" id="notifications-bell" aria-label="Notificaciones">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                                    <path d="M13.73 21a2 2 0 01-3.46 0"/>
+                                </svg>
+                                <span class="icon-button__badge">3</span>
+                            </button>
+
+                            <div class="user-menu__dropdown" id="notifications-panel">
+                                <div id="notifications-list"></div>
+                            </div>
+                        </div>
+
+                        <!-- Menú de Usuario -->
+                        <div class="user-menu">
+                            <button class="user-menu__toggle" id="user-menu-toggle">
+                                <div class="user-menu__avatar" data-user-avatar>U</div>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6 9 12 15 18 9"/>
+                                </svg>
+                            </button>
+
+                            <div class="user-menu__dropdown" id="user-menu">
+                                <a href="#" class="user-menu__item">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="3"/>
+                                        <path d="M12 1v6m0 6v6"/>
+                                    </svg>
+                                    <span>Mi Perfil</span>
+                                </a>
+                                <a href="#" class="user-menu__item">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="3"/>
+                                        <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+                                    </svg>
+                                    <span>Configuración</span>
+                                </a>
+                                <a href="#" class="user-menu__item user-menu__item--danger" id="logout-btn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+                                        <polyline points="16 17 21 12 16 7"/>
+                                        <line x1="21" y1="12" x2="9" y2="12"/>
+                                    </svg>
+                                    <span>Cerrar Sesión</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Métricas Rápidas -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card__label">Tareas Completadas</div>
+                    <div class="stat-card__value" id="tasks-completed">0</div>
+                    <div class="stat-card__change">+5 esta semana</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card__label">Racha Actual</div>
+                    <div class="stat-card__value" id="current-streak">0</div>
+                    <div class="stat-card__change">¡Sigue así!</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card__label">Insignias Ganadas</div>
+                    <div class="stat-card__value" id="total-badges">0</div>
+                    <div class="stat-card__change">3 más para nuevo nivel</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card__label">Actividad Semanal</div>
+                    <div class="stat-card__value" id="weekly-activity">0%</div>
+                    <div class="stat-card__change">Excelente progreso</div>
+                </div>
+            </div>
+
+            <!-- Progreso General -->
+            <section class="progress-section">
+                <div class="progress-section__header">
+                    <h2>Tu Progreso de Aprendizaje</h2>
+                    <span id="progress-text">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-bar__fill" id="progress-bar" style="width: 0%"></div>
+                </div>
+                <p style="color: var(--color-text-secondary); font-size: var(--font-size-small); margin-top: var(--spacing-xs);">
+                    Has completado <strong id="completed-count">0</strong> de <strong id="total-count">0</strong> microtareas en tu ruta personalizada
+                </p>
+            </section>
+
+            <!-- Tareas Pendientes -->
+            <section class="tasks-section">
+                <div class="section-header">
+                    <h2 class="section-title">Tus Microtareas</h2>
+                    <a href="#" class="btn btn--outline btn--small">Ver todas</a>
+                </div>
+
+                <div class="tasks-grid" id="tasks-list">
+                    <!-- Las tareas se cargarán dinámicamente desde dashboard.js -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

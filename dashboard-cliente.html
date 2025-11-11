@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explora Negocios - SUMAK</title>
+     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="images/SumakLogo_.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/SumakLogo_.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/SumakLogo_.png">
+    <link rel="shortcut icon" href="images/SumakLogo_.png">
+    
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        /* Estilos mejorados del dashboard cliente */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+            background-color: var(--color-background);
+        }
+
+        .sidebar {
+            background-color: var(--color-surface);
+            padding: var(--spacing-lg);
+            border-right: 1px solid var(--color-border);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar__header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-xl);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .sidebar__logo {
+            width: 40px;
+            height: 40px;
+        }
+
+        .sidebar__brand {
+            font-family: var(--font-family-primary);
+            font-size: 1.5rem;
+            font-weight: var(--font-weight-black);
+            color: var(--color-primary);
+        }
+
+        .sidebar__nav {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+        }
+
+        .sidebar__link {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm);
+            color: var(--color-text-secondary);
+            border-radius: var(--border-radius-md);
+            transition: all var(--transition-fast);
+        }
+
+        .sidebar__link:hover,
+        .sidebar__link--active {
+            background-color: var(--color-primary-lightest);
+            color: var(--color-primary);
+        }
+
+        .sidebar__link svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .main-content {
+            padding: var(--spacing-xl);
+            overflow-y: auto;
+        }
+
+        .dashboard-header {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .dashboard-header__top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .dashboard-header__title {
+            font-size: 2rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .dashboard-header__subtitle {
+            color: var(--color-text-secondary);
+        }
+
+        .dashboard-header__actions {
+            display: flex;
+            gap: var(--spacing-sm);
+            align-items: center;
+        }
+
+        .user-menu {
+            position: relative;
+        }
+
+        .user-menu__toggle {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: 0.5rem 1rem;
+            background-color: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius-full);
+            cursor: pointer;
+        }
+
+        .user-menu__avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background-color: var(--color-secondary);
+            color: white;
+            font-weight: var(--font-weight-semibold);
+            border-radius: var(--border-radius-full);
+        }
+
+        .user-menu__dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            right: 0;
+            min-width: 200px;
+            background-color: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-lg);
+            z-index: var(--z-index-dropdown);
+        }
+
+        .user-menu__dropdown.is-open {
+            display: block;
+        }
+
+        .user-menu__item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-md);
+            color: var(--color-text-primary);
+            transition: background-color var(--transition-fast);
+        }
+
+        .user-menu__item:hover {
+            background-color: var(--color-background);
+        }
+
+        .user-menu__item--danger {
+            color: var(--color-error);
+        }
+
+        .search-section {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .search-bar {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .search-bar__input {
+            flex: 1;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--color-border);
+            border-radius: var(--border-radius-md);
+            font-size: var(--font-size-body);
+            transition: all var(--transition-fast);
+        }
+
+        .search-bar__input:focus {
+            outline: none;
+            border-color: var(--color-secondary);
+            box-shadow: 0 0 0 3px rgba(30, 150, 240, 0.1);
+        }
+
+        .search-filters {
+            display: flex;
+            gap: var(--spacing-sm);
+            flex-wrap: wrap;
+        }
+
+        .filter-chip {
+            padding: 0.5rem 1rem;
+            background-color: var(--color-surface);
+            border: 2px solid var(--color-border);
+            border-radius: var(--border-radius-full);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-size: var(--font-size-small);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .filter-chip:hover,
+        .filter-chip.active {
+            background-color: var(--color-secondary);
+            color: white;
+            border-color: var(--color-secondary);
+        }
+
+        .businesses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .business-card {
+            background-color: var(--color-surface);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-normal);
+            cursor: pointer;
+        }
+
+        .business-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+        }
+
+        .business-card__image {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .business-card__badge {
+            position: absolute;
+            top: var(--spacing-sm);
+            right: var(--spacing-sm);
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.375rem 0.75rem;
+            background-color: var(--color-primary);
+            color: white;
+            font-size: var(--font-size-small);
+            font-weight: var(--font-weight-semibold);
+            border-radius: var(--border-radius-full);
+            box-shadow: var(--shadow-md);
+        }
+
+        .business-card__favorite {
+            position: absolute;
+            top: var(--spacing-sm);
+            left: var(--spacing-sm);
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            border-radius: var(--border-radius-full);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-md);
+        }
+
+        .business-card__favorite:hover {
+            transform: scale(1.1);
+        }
+
+        .business-card__favorite.active {
+            color: var(--color-error);
+        }
+
+        .business-card__content {
+            padding: var(--spacing-md);
+        }
+
+        .business-card__name {
+            font-size: 1.125rem;
+            font-weight: var(--font-weight-semibold);
+            margin-bottom: 0.25rem;
+        }
+
+        .business-card__category {
+            display: inline-block;
+            font-size: var(--font-size-small);
+            color: var(--color-text-tertiary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .business-card__rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: var(--spacing-sm);
+            font-size: var(--font-size-small);
+        }
+
+        .business-card__stars {
+            color: #FFA000;
+        }
+
+        .business-card__info {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-small);
+            color: var(--color-text-secondary);
+        }
+
+        .business-card__info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .business-card__actions {
+            display: flex;
+            gap: var(--spacing-xs);
+        }
+
+        .featured-section {
+            margin-bottom: var(--spacing-xl);
+            padding: var(--spacing-xl);
+            background: linear-gradient(135deg, var(--color-primary-lightest) 0%, var(--color-secondary-lightest) 100%);
+            border-radius: var(--border-radius-lg);
+        }
+
+        .featured-section__title {
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .featured-section__description {
+            color: var(--color-text-secondary);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .featured-businesses {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        @media (max-width: 767px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                padding: var(--spacing-md);
+            }
+
+            .dashboard-header__top {
+                flex-direction: column;
+                gap: var(--spacing-md);
+                align-items: flex-start;
+            }
+
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .businesses-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        DASHBOARD DEL CLIENTE
+        US-029: Ver información detallada del negocio
+        US-041: Ver catálogo visual del negocio
+        US-031: Guardar emprendedores favoritos
+    -->
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar__header">
+                <img src="images/SumakLogo_.png" alt="SUMAK" class="sidebar__logo">
+                <span class="sidebar__brand">SUMAK</span>
+            </div>
+
+            <nav class="sidebar__nav">
+                <a href="#" class="sidebar__link sidebar__link--active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="M21 21l-4.35-4.35"/>
+                    </svg>
+                    <span>Explorar</span>
+                </a>
+                <a href="#" class="sidebar__link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+                    </svg>
+                    <span>Mis Favoritos</span>
+                </a>
+                <a href="#" class="sidebar__link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 11l3 3L22 4"/>
+                        <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+                    </svg>
+                    <span>Mis Reseñas</span>
+                </a>
+                <a href="#" class="sidebar__link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                    </svg>
+                    <span>Mensajes</span>
+                </a>
+                <a href="contacto.html" class="sidebar__link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                    <span>Ayuda</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Contenido Principal -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="dashboard-header__top">
+                    <div>
+                        <h1 class="dashboard-header__title">
+                            Descubre Negocios Locales 🛍️
+                        </h1>
+                        <p class="dashboard-header__subtitle">
+                            Apoya a microemprendedores certificados en tu zona
+                        </p>
+                    </div>
+
+                    <div class="dashboard-header__actions">
+                        <div class="user-menu">
+                            <button class="user-menu__toggle" id="user-menu-toggle">
+                                <div class="user-menu__avatar" data-user-avatar>C</div>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6 9 12 15 18 9"/>
+                                </svg>
+                            </button>
+
+                            <div class="user-menu__dropdown" id="user-menu">
+                                <a href="#" class="user-menu__item">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="3"/>
+                                        <path d="M12 1v6m0 6v6"/>
+                                    </svg>
+                                    <span>Mi Perfil</span>
+                                </a>
+                                <a href="#" class="user-menu__item">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+                                    </svg>
+                                    <span>Mis Favoritos</span>
+                                </a>
+                                <a href="#" class="user-menu__item">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="3"/>
+                                        <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+                                    </svg>
+                                    <span>Configuración</span>
+                                </a>
+                                <a href="#" class="user-menu__item user-menu__item--danger" id="logout-btn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+                                        <polyline points="16 17 21 12 16 7"/>
+                                        <line x1="21" y1="12" x2="9" y2="12"/>
+                                    </svg>
+                                    <span>Cerrar Sesión</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Barra de búsqueda y filtros -->
+            <section class="search-section">
+                <div class="search-bar">
+                    <input 
+                        type="text" 
+                        class="search-bar__input" 
+                        placeholder="Buscar negocios, productos o servicios..."
+                        id="search-input"
+                    >
+                    <button class="btn btn--primary" onclick="searchBusinesses()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="M21 21l-4.35-4.35"/>
+                        </svg>
+                        Buscar
+                    </button>
+                </div>
+
+                <div class="search-filters">
+                    <button class="filter-chip active" data-category="all">Todos</button>
+                    <button class="filter-chip" data-category="comida">🍽️ Comida</button>
+                    <button class="filter-chip" data-category="ropa">👕 Ropa</button>
+                    <button class="filter-chip" data-category="belleza">💄 Belleza</button>
+                    <button class="filter-chip" data-category="tecnologia">💻 Tecnología</button>
+                    <button class="filter-chip" data-category="artesania">🎨 Artesanía</button>
+                    <button class="filter-chip" data-category="servicios">🔧 Servicios</button>
+                </div>
+            </section>
+
+            <!-- Sección destacada -->
+          <section class="featured-section">
+    <h2 class="featured-section__title">⭐ Negocios Destacados del Mes</h2>
+    <p class="featured-section__description">
+        Estos emprendedores han completado exitosamente su capacitación SUMAK
+    </p>
+    <div class="featured-businesses">
+        <div class="business-card">
+            <div class="business-card__image" style="background-image: url('images/Reposteria.png'); background-size: cover; background-position: center;"></div>
+            <div class="business-card__content">
+                <h3 class="business-card__name">Repostería Dulce María</h3>
+                <div class="business-card__rating">
+                    <span class="business-card__stars">⭐⭐⭐⭐⭐</span>
+                    <span>5.0 (48 reseñas)</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="business-card">
+            <div class="business-card__image" style="background-image: url('images/boutique.png'); background-size: cover; background-position: center;"></div>
+            <div class="business-card__content">
+                <h3 class="business-card__name">Boutique Lucy</h3>
+                <div class="business-card__rating">
+                    <span class="business-card__stars">⭐⭐⭐⭐⭐</span>
+                    <span>4.9 (35 reseñas)</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="business-card">
+            <div class="business-card__image" style="background-image: url('images/ferreteria.png'); background-size: cover; background-position: center;"></div>
+            <div class="business-card__content">
+                <h3 class="business-card__name">Servicios R&S</h3>
+                <div class="business-card__rating">
+                    <span class="business-card__stars">⭐⭐⭐⭐⭐</span>
+                    <span>4.8 (62 reseñas)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+            <!-- Grid de Negocios -->
+            <section>
+                <h2 style="margin-bottom: var(--spacing-md); font-size: 1.5rem;">Negocios Cerca de Ti</h2>
+                <div class="businesses-grid" id="businesses-grid">
+                    <!-- Los negocios se cargarán dinámicamente -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script>
+    // Script específico para cargar negocios
+    document.addEventListener('DOMContentLoaded', () => {
+        const businesses = [
+            { 
+                id: 1, 
+                name: 'Bodega La Esquina', 
+                category: 'comida', 
+                image: 'images/bodega.png', // Imagen real
+                rating: 4.5, 
+                reviews: 32, 
+                certified: true, 
+                distance: '0.5 km', 
+                phone: '999-888-777', 
+                hours: 'Lun-Dom 7AM-11PM' 
+            },
+            { 
+                id: 2, 
+                name: 'Repostería Dulce María', 
+                category: 'comida', 
+                image: 'images/Reposteria.png', 
+                rating: 4.8, 
+                reviews: 48, 
+                certified: true, 
+                distance: '1.2 km', 
+                phone: '999-777-666', 
+                hours: 'Lun-Sáb 8AM-8PM' 
+            },
+            { 
+                id: 3, 
+                name: 'Taller de Costura Ana', 
+                category: 'ropa', 
+                image: 'images/costura.png', 
+                rating: 4.3, 
+                reviews: 21, 
+                certified: false, 
+                distance: '2.0 km', 
+                phone: '999-666-555', 
+                hours: 'Lun-Vie 9AM-6PM' 
+            },
+            { 
+                id: 4, 
+                name: 'Salón de Belleza Patricia', 
+                category: 'belleza', 
+                image: 'images/salon.png', 
+                rating: 4.7, 
+                reviews: 56, 
+                certified: true, 
+                distance: '0.8 km', 
+                phone: '999-555-444', 
+                hours: 'Lun-Sáb 9AM-7PM' 
+            },
+            { 
+                id: 5, 
+                name: 'Ferretería Central', 
+                category: 'servicios', 
+                image: 'images/ferreteria.png', 
+                rating: 4.2, 
+                reviews: 38, 
+                certified: true, 
+                distance: '1.5 km', 
+                phone: '999-444-333', 
+                hours: 'Lun-Dom 8AM-8PM' 
+            },
+            { 
+                id: 6, 
+                name: 'Boutique Lucy', 
+                category: 'ropa', 
+                image: 'images/boutique.png', 
+                rating: 4.9, 
+                reviews: 35, 
+                certified: true, 
+                distance: '1.8 km', 
+                phone: '999-333-222', 
+                hours: 'Lun-Sáb 10AM-8PM' 
+            },
+            { 
+                id: 7, 
+                name: 'Imprenta Digital', 
+                category: 'tecnologia', 
+                image: 'images/imprenta.png', 
+                rating: 4.6, 
+                reviews: 29, 
+                certified: true, 
+                distance: '2.2 km', 
+                phone: '999-222-111', 
+                hours: 'Lun-Vie 9AM-7PM' 
+            },
+            { 
+                id: 8, 
+                name: 'Artesanías del Perú', 
+                category: 'artesania', 
+                image: 'images/artesania.png', 
+                rating: 4.4, 
+                reviews: 42, 
+                certified: false, 
+                distance: '3.0 km', 
+                phone: '999-111-000', 
+                hours: 'Lun-Sáb 10AM-6PM' 
+            }
+        ];
+
+        const businessesGrid = document.getElementById('businesses-grid');
+        let favoriteBusinesses = JSON.parse(localStorage.getItem('favorite_businesses')) || [];
+
+        function renderBusinesses(filteredBusinesses = businesses) {
+            if (businessesGrid) {
+                businessesGrid.innerHTML = filteredBusinesses.map(business => `
+                    <article class="business-card" data-category="${business.category}" data-id="${business.id}">
+                        <div class="business-card__image" style="background-image: url('${business.image}'); background-size: cover; background-position: center;">
+                            ${business.certified ? `
+                                <span class="business-card__badge">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+                                        <polyline points="22 4 12 14.01 9 11.01"/>
+                                    </svg>
+                                    Certificado SUMAK
+                                </span>
+                            ` : ''}
+                            <button class="business-card__favorite ${favoriteBusinesses.includes(business.id) ? 'active' : ''}" 
+                                    onclick="toggleFavorite(event, ${business.id})">
+                                ${favoriteBusinesses.includes(business.id) ? '❤️' : '🤍'}
+                            </button>
+                        </div>
+                        <div class="business-card__content">
+                            <h3 class="business-card__name">${business.name}</h3>
+                            <span class="business-card__category">${getCategoryName(business.category)}</span>
+                            
+                            <div class="business-card__rating">
+                                <span class="business-card__stars">${renderStars(business.rating)}</span>
+                                <span>${business.rating} (${business.reviews} reseñas)</span>
+                            </div>
+
+                            <div class="business-card__info">
+                                <div class="business-card__info-item">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                                        <circle cx="12" cy="10" r="3"/>
+                                    </svg>
+                                    <span>${business.distance}</span>
+                                </div>
+                                <div class="business-card__info-item">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <polyline points="12 6 12 12 16 14"/>
+                                    </svg>
+                                    <span>${business.hours}</span>
+                                </div>
+                                <div class="business-card__info-item">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+                                    </svg>
+                                    <span>${business.phone}</span>
+                                </div>
+                            </div>
+
+                            <div class="business-card__actions">
+                                <button class="btn btn--primary btn--small" onclick="viewBusinessDetail(${business.id})">
+                                    Ver Detalles
+                                </button>
+                                <button class="btn btn--outline btn--small" onclick="contactBusiness(${business.id})">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                                    </svg>
+                                    WhatsApp
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                `).join('');
+            }
+        }
+
+        renderBusinesses();
+
+        // Resto del código igual...
+        const filterChips = document.querySelectorAll('.filter-chip');
+        filterChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                const category = chip.dataset.category;
+                
+                filterChips.forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+
+                if (category === 'all') {
+                    renderBusinesses(businesses);
+                } else {
+                    const filtered = businesses.filter(b => b.category === category);
+                    renderBusinesses(filtered);
+                }
+            });
+        });
+
+        window.toggleFavorite = function(event, businessId) {
+            event.stopPropagation();
+            const button = event.currentTarget;
+            
+            if (favoriteBusinesses.includes(businessId)) {
+                favoriteBusinesses = favoriteBusinesses.filter(id => id !== businessId);
+                button.classList.remove('active');
+                button.textContent = '🤍';
+                showToast('Eliminado de favoritos', 'info');
+            } else {
+                favoriteBusinesses.push(businessId);
+                button.classList.add('active');
+                button.textContent = '❤️';
+                showToast('Agregado a favoritos ♥', 'success');
+            }
+
+            localStorage.setItem('favorite_businesses', JSON.stringify(favoriteBusinesses));
+        };
+
+        window.viewBusinessDetail = function(businessId) {
+            const business = businesses.find(b => b.id === businessId);
+            if (business) {
+                showToast('Abriendo ' + business.name + '...', 'info');
+            }
+        };
+
+        window.contactBusiness = function(businessId) {
+            const business = businesses.find(b => b.id === businessId);
+            if (business) {
+                window.open('https://wa.me/51' + business.phone.replace(/\D/g, ''), '_blank');
+            }
+        };
+
+        window.searchBusinesses = function() {
+            const searchInput = document.getElementById('search-input');
+            const query = searchInput.value.toLowerCase().trim();
+
+            if (!query) {
+                renderBusinesses(businesses);
+                return;
+            }
+
+            const filtered = businesses.filter(b => 
+                b.name.toLowerCase().includes(query) ||
+                b.category.toLowerCase().includes(query)
+            );
+
+            if (filtered.length === 0) {
+                businessesGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: var(--spacing-3xl); color: var(--color-text-secondary);">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin: 0 auto var(--spacing-md);">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="M21 21l-4.35-4.35"/>
+                        </svg>
+                        <h3 style="margin-bottom: var(--spacing-sm);">No encontramos resultados</h3>
+                        <p>Intenta con otros términos de búsqueda</p>
+                    </div>
+                `;
+            } else {
+                renderBusinesses(filtered);
+            }
+        };
+
+        document.getElementById('search-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchBusinesses();
+            }
+        });
+
+        function renderStars(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            let stars = '';
+
+            for (let i = 0; i < fullStars; i++) {
+                stars += '⭐';
+            }
+
+            if (hasHalfStar) {
+                stars += '✨';
+            }
+
+            return stars;
+        }
+
+        function getCategoryName(category) {
+            const categories = {
+                'comida': '🍽️ Comida',
+                'ropa': '👕 Ropa',
+                'belleza': '💄 Belleza',
+                'tecnologia': '💻 Tecnología',
+                'artesania': '🎨 Artesanía',
+                'servicios': '🔧 Servicios'
+            };
+            return categories[category] || category;
+        }
+    });
+</script>
+</body>
+</html>

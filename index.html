@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUMAK</title>
+     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="images/SumakLogo_.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/SumakLogo_.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/SumakLogo_.png">
+    <link rel="shortcut icon" href="images/SumakLogo_.png">
+    
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- 
+        USER STORY US-017: Onboarding rápido y contextual
+        Criterio: Navegación clara desde landing hacia registro/login
+    -->
+    <header class="header" id="header">
+        <nav class="nav container">
+            <div class="nav__logo">
+                <img src="images/SumakLogo_.png" alt="SUMAK Logo" class="nav__logo-img">
+                <span class="nav__logo-text">SUMAK</span>
+            </div>
+            
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a href="#inicio" class="nav__link">Inicio</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#soluciones" class="nav__link">Soluciones</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#impacto" class="nav__link">Impacto</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="recursos.html" class="nav__link">Recursos</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="mentores.html" class="nav__link">Mentores</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#nosotros" class="nav__link">Nosotros</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="contacto.html" class="nav__link">Contacto</a>
+                    </li>
+                </ul>
+                
+                <div class="nav__actions">
+                    <a href="login.html" class="btn btn--secondary">Iniciar Sesión</a>
+                    <a href="register.html" class="btn btn--primary">Comenzar Ahora</a>
+                </div>
+            </div>
+
+            <button class="nav__toggle" id="nav-toggle" aria-label="Abrir menú">
+                <span class="nav__toggle-icon"></span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="main">
+        <!-- 
+            SECCIÓN HERO
+            US-017: Onboarding rápido y contextual
+            Criterio: CTAs visibles que guíen al registro
+        -->
+        <section class="hero" id="inicio">
+            <div class="hero__container container">
+                <div class="hero__content">
+                    <h1 class="hero__title">
+                        Formación empresarial para un <span class="text--highlight">crecimiento sostenible</span>
+                    </h1>
+                    <p class="hero__description">
+                        Impulsa tu microempresa con capacitación práctica, accesible y verificable. 
+                        Aprende, aplica y crece con SUMAK.
+                    </p>
+                    <div class="hero__cta">
+                        <a href="register.html" class="btn btn--primary btn--large">
+                            Comenzar Ahora
+                        </a>
+                        <a href="#soluciones" class="btn btn--secondary btn--large">
+                            Ver Soluciones
+                        </a>
+                    </div>
+                    
+                    <!-- US-035: Perfil del usuario - mostrar beneficios según segmento -->
+                    <div class="hero__stats">
+                        <div class="stat">
+                            <span class="stat__number">85%</span>
+                            <span class="stat__label">Mejora en gestión</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat__number">75%</span>
+                            <span class="stat__label">Completitud 4 semanas</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat__number">70%</span>
+                            <span class="stat__label">Retención mensual</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hero__image">
+                    <img src="images/background.png" alt="Microemprendedores aprendiendo" class="hero__img">
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+            SECCIÓN SOLUCIONES
+            US-029: Ver información detallada del negocio
+            US-041: Ver catálogo visual del negocio
+        -->
+        <section class="solutions" id="soluciones">
+            <div class="solutions__container container">
+                <div class="section__header">
+                    <h2 class="section__title">Soluciones diseñadas para tu negocio</h2>
+                    <p class="section__description">
+                        Herramientas prácticas que se adaptan a tu realidad como microempresario
+                    </p>
+                </div>
+
+                <div class="solutions__grid">
+                    <!-- Solución 1: Microaprendizaje -->
+                    <article class="solution-card">
+                        <div class="solution-card__icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="2"/>
+                                <path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <h3 class="solution-card__title">Microaprendizaje Accionable</h3>
+                        <p class="solution-card__description">
+                            Tareas diarias de 10-15 minutos que puedes aplicar inmediatamente en tu negocio. 
+                            Aprendizaje verificable con evidencias.
+                        </p>
+                        <ul class="solution-card__features">
+                            <li>✓ Micro-retos personalizados</li>
+                            <li>✓ Seguimiento de progreso gamificado</li>
+                            <li>✓ Evidencias con foto/video/audio</li>
+                        </ul>
+                        <a href="register.html" class="btn btn--outline">Empezar Gratis</a>
+                    </article>
+
+                    <!-- Solución 2: Accesibilidad -->
+                    <article class="solution-card solution-card--featured">
+                        <div class="solution-card__badge">Más Popular</div>
+                        <div class="solution-card__icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                                <rect x="5" y="2" width="14" height="20" rx="2" stroke="currentColor" stroke-width="2"/>
+                                <path d="M12 18h.01" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <h3 class="solution-card__title">Accesible desde Cualquier Dispositivo</h3>
+                        <p class="solution-card__description">
+                            PWA ligera que funciona con conectividad limitada. Recibe tareas por WhatsApp y SMS.
+                        </p>
+                        <ul class="solution-card__features">
+                            <li>✓ Modo offline disponible</li>
+                            <li>✓ Recordatorios por WhatsApp/SMS</li>
+                            <li>✓ Compatible con celulares básicos</li>
+                        </ul>
+                        <a href="register.html" class="btn btn--primary">Comenzar Ahora</a>
+                    </article>
+
+                    <!-- Solución 3: Mentoría -->
+                    <article class="solution-card">
+                        <div class="solution-card__icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/>
+                                <path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <h3 class="solution-card__title">Acompañamiento de Mentores</h3>
+                        <p class="solution-card__description">
+                            Conecta con expertos de tu rubro. Recibe asesoría personalizada y únete a comunidades de aprendizaje.
+                        </p>
+                        <ul class="solution-card__features">
+                            <li>✓ Chat directo con mentores</li>
+                            <li>✓ Grupos de WhatsApp por rubro</li>
+                            <li>✓ Sesiones de consultoría</li>
+                        </ul>
+                        <a href="mentores.html" class="btn btn--outline">Ver Mentores</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+            SECCIÓN CÓMO FUNCIONA
+            US-016: Recibir tutorial inicial interactivo
+            US-019: Diagnóstico inicial y ruta personalizada
+        -->
+        <section class="how-it-works">
+            <div class="how-it-works__container container">
+                <div class="section__header">
+                    <h2 class="section__title">¿Cómo funciona SUMAK?</h2>
+                    <p class="section__description">
+                        4 pasos simples para transformar tu negocio
+                    </p>
+                </div>
+
+                <div class="steps">
+                    <article class="step">
+                        <div class="step__number">01</div>
+                        <div class="step__content">
+                            <h3 class="step__title">Regístrate y Diagnóstico</h3>
+                            <p class="step__description">
+                                Completa un breve cuestionario (menos de 8 preguntas) sobre tu negocio. 
+                                Identificamos tus brechas y te sugerimos una ruta personalizada.
+                            </p>
+                        </div>
+                        <div class="step__icon">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                    </article>
+
+                    <article class="step">
+                        <div class="step__number">02</div>
+                        <div class="step__content">
+                            <h3 class="step__title">Recibe Micro-retos Diarios</h3>
+                            <p class="step__description">
+                                Tareas prácticas de 10-15 minutos adaptadas a tu rubro. 
+                                Notificaciones por WhatsApp, SMS o app según tu conectividad.
+                            </p>
+                        </div>
+                        <div class="step__icon">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
+                                <rect x="5" y="2" width="14" height="20" rx="2" stroke="currentColor" stroke-width="2"/>
+                                <path d="M9 10h6M9 14h6" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                    </article>
+
+                    <article class="step">
+                        <div class="step__number">03</div>
+                        <div class="step__content">
+                            <h3 class="step__title">Aplica y Sube Evidencias</h3>
+                            <p class="step__description">
+                                Implementa lo aprendido en tu negocio. Sube fotos, videos o audios 
+                                que demuestren tu progreso. Recibe retroalimentación inmediata.
+                            </p>
+                        </div>
+                        <div class="step__icon">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
+                                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="12" cy="13" r="4" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                    </article>
+
+                    <article class="step">
+                        <div class="step__number">04</div>
+                        <div class="step__content">
+                            <h3 class="step__title">Crece y Certifícate</h3>
+                            <p class="step__description">
+                                Gana insignias, comparte logros en redes sociales y obtén certificaciones 
+                                que aumentan la confianza de tus clientes.
+                            </p>
+                        </div>
+                        <div class="step__icon">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="how-it-works__cta">
+                    <a href="register.html" class="btn btn--primary btn--large">Empezar Mi Diagnóstico</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+            SECCIÓN IMPACTO
+            US-022: Ver progreso y métricas simples
+            US-047: Consultar informes de efectividad
+        -->
+        <section class="impact" id="impacto">
+            <div class="impact__container container">
+                <div class="section__header">
+                    <h2 class="section__title">Resultados Verificables</h2>
+                    <p class="section__description">
+                        Más de 1,000 microempresarios ya están transformando sus negocios con SUMAK
+                    </p>
+                </div>
+
+                <div class="impact__grid">
+                    <div class="impact-metric">
+                        <div class="impact-metric__icon">📈</div>
+                        <div class="impact-metric__value">85%</div>
+                        <div class="impact-metric__label">Mejoran gestión en 2 meses</div>
+                        <p class="impact-metric__description">
+                            Usuarios que mejoran indicadores básicos de gestión (ventas, control de gastos, organización)
+                        </p>
+                    </div>
+
+                    <div class="impact-metric">
+                        <div class="impact-metric__icon">✅</div>
+                        <div class="impact-metric__value">75%</div>
+                        <div class="impact-metric__label">Completan 4 semanas consecutivas</div>
+                        <p class="impact-metric__description">
+                            Emprendedores que mantienen consistencia gracias a gamificación y recordatorios
+                        </p>
+                    </div>
+
+                    <div class="impact-metric">
+                        <div class="impact-metric__icon">💚</div>
+                        <div class="impact-metric__value">70%</div>
+                        <div class="impact-metric__label">Retención mensual</div>
+                        <p class="impact-metric__description">
+                            Usuarios activos mes a mes que continúan aplicando micro-retos en sus negocios
+                        </p>
+                    </div>
+
+                    <div class="impact-metric">
+                        <div class="impact-metric__icon">🎯</div>
+                        <div class="impact-metric__value">60%</div>
+                        <div class="impact-metric__label">Reducen errores financieros</div>
+                        <p class="impact-metric__description">
+                            Mejora en control de ingresos/egresos después de 3 meses de uso
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Visualización de Dashboard -->
+                <div class="impact__dashboard">
+                    <h3 class="impact__dashboard-title">Panel de Progreso Gamificado</h3>
+                    <div class="dashboard-preview">
+                        <img src="images/Categorias.png" alt="Vista previa del dashboard de SUMAK" class="dashboard-preview__img">
+                        <div class="dashboard-preview__features">
+                            <div class="feature-badge">
+                                <span class="feature-badge__icon">📊</span>
+                                <span class="feature-badge__text">Métricas en tiempo real</span>
+                            </div>
+                            <div class="feature-badge">
+                                <span class="feature-badge__icon">🏆</span>
+                                <span class="feature-badge__text">Sistema de insignias</span>
+                            </div>
+                            <div class="feature-badge">
+                                <span class="feature-badge__icon">📸</span>
+                                <span class="feature-badge__text">Evidencias visuales</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+            SECCIÓN PLANES
+            US-026: Suscribirse a Premium y gestionar pagos
+        -->
+        <section class="pricing" id="planes">
+            <div class="pricing__container container">
+                <div class="section__header">
+                    <h2 class="section__title">Planes que se ajustan a ti</h2>
+                    <p class="section__description">
+                        Comienza gratis y crece con tu negocio
+                    </p>
+                </div>
+
+                <div class="pricing__grid">
+                    <!-- Plan Básico -->
+                    <article class="pricing-card">
+                        <div class="pricing-card__header">
+                            <h3 class="pricing-card__name">Básico</h3>
+                            <div class="pricing-card__price">
+                                <span class="pricing-card__currency">S/</span>
+                                <span class="pricing-card__amount">0</span>
+                                <span class="pricing-card__period">/mes</span>
+                            </div>
+                            <p class="pricing-card__description">Perfecto para comenzar</p>
+                        </div>
+                        <ul class="pricing-card__features">
+                            <li class="pricing-card__feature">
+                                <svg class="feature__icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                <span>5 micro-retos al mes</span>
+                            </li>
+                            <li class="pricing-card__feature">
+                                <svg class="feature__icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                <span>Acceso a recursos básicos</span>
+                            </li>
+                            <li class="pricing-card__feature">
+                                <svg class="feature__icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                <span>Panel de progreso</span>
+                            </li>
+                            <li class="pricing-card__feature">
+                                <svg class="feature__icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                <span>Recordatorios por SMS</span>
+                            </li>
+                            <li class="pricing-card__feature pricing-card__feature--disabled">
+                                <svg class="feature__icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                <span>Asesoría de mentores</span>
+                            </li>
+                        </ul>
+                        <a href="register.html" class="btn btn--outline btn--full">Comenzar Gratis</a>
+                    </article>
+
+                    <!-- Plan Pro -->
+                    <article class="pricing-card pricing-card--featured">
+                        <div class="pricing-card__badge">Más Popular</div>
+                        <div class="pricing-card__header">
+                            <h3 class="pricing-card__name">Pro</h3>
+                            <div class="pricing-card__price">
+                                <span class="pricing-card__currency">S/</span>
+                                <span class="pricing-card__amount">29</span>
+                                <span class="pricing-card__period">/mes</span>
+                            </div>
+                            <p class="pricing-card__description">Para emprendedores comprometidos</p>
+                        </div>
+                        <ul class="pricing-card__features">
+                            <li class="pricing-card__feature">
+                                <svg class="feature__icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                <span>Micro-retos ilimitados</span>
+                            </li>
+                            <li class="pricing-card__feature">
+                                <svg class="feature__icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                <span>Todos los recursos y plantillas</span>
+                            </li>
+                            <li class="pricing-card__feature">
+                                <svg class="feature__icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                <span>Asesoría de mentores (3 consultas/mes)</span>
+                            </li>
+                            <li class="pricing-card__feature">
+                                <svg class="feature__icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                <span>Grupos de WhatsApp por rubro</span>
+                            </li>
+                            <li class="pricing-card__feature">
+                                <svg class="feature__icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                <span>Certificaciones oficiales</span>
+                            </li>
+                        </ul>
+                        <a href="register.html" class="btn btn--primary btn--full">Suscribirse Ahora</a>
+                    </article>
+
+                    <!-- Plan Facilitador -->
+                    <article class="pricing-card">
+                        <div class="pricing-card__header">
+                            <h3 class="pricing-card__name">Facilitador</h3>
+                            <div class="pricing-card__price">
+                                <span class="pricing-card__currency">S/</span>
+                                <span class="pricing-card__amount">99</span>
+                                <span class="pricing-card__period">/mes</span>
+                            </div>
+                            <p class="pricing-card__description">Para profesores y capacitadores</p>
+                        </div>
+                        <ul class="pricing-card__features">
+                            <li class="pricing-card__feature">
+                                <svg class="feature__icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                <span>Gestión de hasta 50+ alumnos</span>
+                            </li>
+                            <li class="pricing-card__feature">
+                                <svg class="feature__icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                <span>Creador de micro-retos con editor visual</span>
+                            </li>
+                            <li class="pricing-card__feature">
+                                <svg class="feature__icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                <span>Tablero Kanban de progreso</span>
+                            </li>
+                            <li class="pricing-card__feature">
+                                <svg class="feature__icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                <span>Reportes de efectividad en PDF/Excel</span>
+                            </li>
+                            <li class="pricing-card__feature">
+                                <svg class="feature__icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                <span>Certificaciones como facilitador</span>
+                            </li>
+                        </ul>
+                        <a href="register.html" class="btn btn--outline btn--full">Solicitar Demo</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+            SECCIÓN TESTIMONIOS
+            US-038: Conocer la historia del emprendedor
+        -->
+        <section class="testimonials">
+            <div class="testimonials__container container">
+                <div class="section__header">
+                    <h2 class="section__title">Historias de Éxito</h2>
+                    <p class="section__description">
+                        Microempresarios que transformaron sus negocios con SUMAK
+                    </p>
+                </div>
+
+                <div class="testimonials__grid">
+                    <article class="testimonial-card">
+                        <div class="testimonial-card__header">
+                            <img src="images/MariaGonzales.png" alt="María González" class="testimonial-card__avatar">
+                            <div class="testimonial-card__info">
+                                <h4 class="testimonial-card__name">María González</h4>
+                                <p class="testimonial-card__business">Tienda de Ropa - San Miguel</p>
+                            </div>
+                        </div>
+                        <div class="testimonial-card__rating">
+                            ⭐⭐⭐⭐⭐
+                        </div>
+                        <blockquote class="testimonial-card__quote">
+                            "Antes llevaba mis cuentas en cuadernos y siempre perdía información. Con SUMAK aprendí 
+                            a separar mis gastos personales del negocio en solo 1 mes. Ahora sé exactamente cuánto 
+                            gano y puedo planificar mejor mis compras."
+                        </blockquote>
+                        <div class="testimonial-card__achievement">
+                            <span class="achievement-badge">📈 +30% en ventas</span>
+                        </div>
+                    </article>
+
+                    <article class="testimonial-card">
+                        <div class="testimonial-card__header">
+                            <img src="images/CarlosMendoza.png" alt="Carlos Mendoza" class="testimonial-card__avatar">
+                            <div class="testimonial-card__info">
+                                <h4 class="testimonial-card__name">Carlos Mendoza</h4>
+                                <p class="testimonial-card__business">Bodega - Villa El Salvador</p>
+                            </div>
+                        </div>
+                        <div class="testimonial-card__rating">
+                            ⭐⭐⭐⭐⭐
+                        </div>
+                        <blockquote class="testimonial-card__quote">
+                            "Lo mejor es que puedo usar SUMAK aunque mi internet sea lento. Recibo las tareas por 
+                            WhatsApp y puedo completarlas en mi tiempo libre. Los micro-retos me ayudaron a organizar mi inventario y ahora 
+                            no pierdo productos por vencimiento."
+                        </blockquote>
+                        <div class="testimonial-card__achievement">
+                            <span class="achievement-badge">💰 -40% en desperdicios</span>
+                        </div>
+                    </article>
+
+                    <article class="testimonial-card">
+                        <div class="testimonial-card__header">
+                            <img src="images/AnaQuispe.png" alt="Ana Quispe" class="testimonial-card__avatar">
+                            <div class="testimonial-card__info">
+                                <h4 class="testimonial-card__name">Ana Quispe</h4>
+                                <p class="testimonial-card__business">Repostería Casera - Los Olivos</p>
+                            </div>
+                        </div>
+                        <div class="testimonial-card__rating">
+                            ⭐⭐⭐⭐⭐
+                        </div>
+                        <blockquote class="testimonial-card__quote">
+                            "Las plantillas para redes sociales me cambiaron el negocio. Antes no sabía qué publicar 
+                            y ahora tengo un calendario. Mis clientes ven que soy profesional y confían más en mí. 
+                            ¡He triplicado mis pedidos!"
+                        </blockquote>
+                        <div class="testimonial-card__achievement">
+                            <span class="achievement-badge">📱 3x más pedidos online</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+            SECCIÓN NOSOTROS
+            Información de la startup y equipo
+        -->
+        <section class="about" id="nosotros">
+            <div class="about__container container">
+                <div class="about__content">
+                    <div class="about__text">
+                        <h2 class="section__title">Sobre SUMAK</h2>
+                        <p class="about__description">
+                            SUMAK es una startup tecnológica peruana enfocada en democratizar la capacitación 
+                            empresarial para microemprendedores. Nuestra misión es eliminar las barreras de 
+                            acceso a la formación mediante soluciones digitales innovadoras que conviertan el 
+                            aprendizaje en acciones verificables.
+                        </p>
+                        <p class="about__description">
+                            Sabemos que más del 95% de las empresas en Perú son microempresas, pero solo el 37% 
+                            accede a capacitación formal. Con SUMAK, transformamos esa realidad mediante 
+                            microlearning práctico, gamificación y retroalimentación inmediata, permitiendo que 
+                            cada microemprendedor fortalezca sus capacidades de gestión y consolide negocios 
+                            sostenibles.
+                        </p>
+
+                        <div class="about__values">
+                            <div class="value">
+                                <h4 class="value__title">🎯 Inclusión</h4>
+                                <p class="value__description">
+                                    Garantizamos acceso sin importar limitaciones tecnológicas o de conectividad
+                                </p>
+                            </div>
+                            <div class="value">
+                                <h4 class="value__title">⚡ Acción</h4>
+                                <p class="value__description">
+                                    Priorizamos el aprendizaje práctico y medible a través de retos diarios
+                                </p>
+                            </div>
+                            <div class="value">
+                                <h4 class="value__title">🚀 Innovación</h4>
+                                <p class="value__description">
+                                    Aplicamos enfoques de microlearning, gamificación y retroalimentación inmediata
+                                </p>
+                            </div>
+                            <div class="value">
+                                <h4 class="value__title">🌱 Sostenibilidad</h4>
+                                <p class="value__description">
+                                    Fomentamos el crecimiento responsable de pequeños negocios
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="about__image">
+                        <img src="images/EquipoSumak.png" alt="Equipo SUMAK" class="about__img">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+            SECCIÓN CTA FINAL
+            US-017: Onboarding rápido y contextual
+        -->
+        <section class="cta-final">
+            <div class="cta-final__container container">
+                <div class="cta-final__content">
+                    <h2 class="cta-final__title">
+                        ¿Listo para transformar tu negocio?
+                    </h2>
+                    <p class="cta-final__description">
+                        Únete a más de 1,000 microempresarios que ya están mejorando su gestión con SUMAK
+                    </p>
+                    <div class="cta-final__actions">
+                        <a href="register.html" class="btn btn--primary btn--large">
+                            Comenzar Ahora Gratis
+                        </a>
+                        <a href="contacto.html" class="btn btn--secondary btn--large">
+                            Agendar Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 
+        FOOTER
+        US-033: Soporte técnico integrado
+        US-028: Comentarios y soporte desde la aplicación
+    -->
+    <footer class="footer">
+        <div class="footer__container container">
+            <div class="footer__grid">
+                <!-- Columna 1: Logo y descripción -->
+                <div class="footer__column">
+                    <div class="footer__logo">
+                        <img src="images/SumakLogo_.png" alt="SUMAK Logo" class="footer__logo-img">
+                        <span class="footer__logo-text">SUMAK</span>
+                    </div>
+                    <p class="footer__description">
+                        Formación empresarial práctica y accesible para microemprendedores peruanos.
+                    </p>
+                    <div class="footer__social">
+                        <a href="https://facebook.com/sumak" class="footer__social-link" aria-label="Facebook">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+                            </svg>
+                        </a>
+                        <a href="https://instagram.com/sumak" class="footer__social-link" aria-label="Instagram">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                                <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"/>
+                            </svg>
+                        </a>
+                        <a href="https://linkedin.com/company/sumak" class="footer__social-link" aria-label="LinkedIn">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/>
+                                <circle cx="4" cy="4" r="2"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Columna 2: Enlaces rápidos -->
+                <div class="footer__column">
+                    <h4 class="footer__title">Plataforma</h4>
+                    <ul class="footer__links">
+                        <li><a href="#soluciones" class="footer__link">Soluciones</a></li>
+                        <li><a href="#impacto" class="footer__link">Impacto</a></li>
+                        <li><a href="#planes" class="footer__link">Planes</a></li>
+                        <li><a href="recursos.html" class="footer__link">Recursos</a></li>
+                        <li><a href="mentores.html" class="footer__link">Mentores</a></li>
+                    </ul>
+                </div>
+
+                <!-- Columna 3: Soporte -->
+                <div class="footer__column">
+                    <h4 class="footer__title">Soporte</h4>
+                    <ul class="footer__links">
+                        <li><a href="contacto.html" class="footer__link">Centro de Ayuda</a></li>
+                        <li><a href="contacto.html#faq" class="footer__link">Preguntas Frecuentes</a></li>
+                        <li><a href="contacto.html" class="footer__link">Contacto</a></li>
+                        <li><a href="#" class="footer__link">WhatsApp: +51 999 888 777</a></li>
+                        <li><a href="mailto:soporte@sumak.com" class="footer__link">soporte@sumak.com</a></li>
+                    </ul>
+                </div>
+
+                <!-- Columna 4: Legal -->
+                <div class="footer__column">
+                    <h4 class="footer__title">Legal</h4>
+                    <ul class="footer__links">
+                        <li><a href="#" class="footer__link">Términos y Condiciones</a></li>
+                        <li><a href="#" class="footer__link">Política de Privacidad</a></li>
+                        <li><a href="#" class="footer__link">Política de Cookies</a></li>
+                        <li><a href="#nosotros" class="footer__link">Sobre Nosotros</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer__bottom">
+                <p class="footer__copyright">
+                    &copy; 2025 SUMAK. Todos los derechos reservados. | 
+                    Hecho con 💚 para microempresarios peruanos
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

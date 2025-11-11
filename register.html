@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - SUMAK</title>
+     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="images/SumakLogo_.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/SumakLogo_.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/SumakLogo_.png">
+    <link rel="shortcut icon" href="images/SumakLogo_.png">
+    
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        /* Estilos adicionales para selección de rol */
+        .role-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .role-card {
+            position: relative;
+            padding: var(--spacing-lg);
+            background-color: var(--color-surface);
+            border: 3px solid var(--color-border);
+            border-radius: var(--border-radius-lg);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-align: center;
+        }
+
+        .role-card:hover {
+            border-color: var(--color-primary-light);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .role-card.selected {
+            border-color: var(--color-primary);
+            background-color: var(--color-primary-lightest);
+        }
+
+        .role-card__input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .role-card__icon {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-sm);
+            display: block;
+        }
+
+        .role-card__title {
+            font-size: 1.125rem;
+            font-weight: var(--font-weight-semibold);
+            margin-bottom: var(--spacing-xs);
+            color: var(--color-text-primary);
+        }
+
+        .role-card__description {
+            font-size: var(--font-size-small);
+            color: var(--color-text-secondary);
+            line-height: var(--line-height-normal);
+        }
+
+        .role-card.selected .role-card__title {
+            color: var(--color-primary);
+        }
+
+        .role-card__check {
+            position: absolute;
+            top: var(--spacing-sm);
+            right: var(--spacing-sm);
+            width: 24px;
+            height: 24px;
+            background-color: var(--color-primary);
+            color: white;
+            border-radius: var(--border-radius-full);
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .role-card.selected .role-card__check {
+            display: flex;
+        }
+
+        /* Ocultar campos según rol */
+        .conditional-field {
+            display: none;
+        }
+
+        .conditional-field.visible {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        USER STORY US-017: Onboarding rápido y contextual
+        USER STORY US-019: Diagnóstico inicial y ruta personalizada
+        Criterios: Registro adaptado según rol seleccionado
+    -->
+    <div class="auth-page">
+        <div class="auth-page__container">
+            <!-- Formulario de Registro -->
+            <div class="auth-page__form">
+                <div class="auth-form">
+                    <div class="auth-form__logo">
+                        <a href="index.html">
+                            <img src="images/SumakLogo_.png" alt="SUMAK Logo">
+                        </a>
+                    </div>
+
+                    <div class="auth-form__header">
+                        <h1 class="auth-form__title">Comienza tu transformación</h1>
+                        <p class="auth-form__subtitle">Elige tu perfil y crea tu cuenta en menos de 2 minutos</p>
+                    </div>
+
+                    <!-- Progreso del registro -->
+                    <div class="registration-progress">
+                        <div class="registration-progress__step registration-progress__step--active" data-step="1">
+                            <span class="registration-progress__number">1</span>
+                            <span class="registration-progress__label">Rol</span>
+                        </div>
+                        <div class="registration-progress__step" data-step="2">
+                            <span class="registration-progress__number">2</span>
+                            <span class="registration-progress__label">Datos</span>
+                        </div>
+                        <div class="registration-progress__step" data-step="3">
+                            <span class="registration-progress__number">3</span>
+                            <span class="registration-progress__label">Perfil</span>
+                        </div>
+                        <div class="registration-progress__step" data-step="4">
+                            <span class="registration-progress__number">4</span>
+                            <span class="registration-progress__label">Finalizar</span>
+                        </div>
+                    </div>
+
+                    <form id="register-form" class="form" novalidate>
+                        <!-- PASO 1: Selección de Rol -->
+                        <div class="form__step form__step--active" data-step="1">
+                            <h3 style="margin-bottom: var(--spacing-md); text-align: center;">¿Cómo quieres usar SUMAK?</h3>
+                            
+                            <div class="role-selection">
+                                <!-- Rol: Emprendedor -->
+                                <label class="role-card" for="role-emprendedor">
+                                    <input 
+                                        type="radio" 
+                                        id="role-emprendedor" 
+                                        name="role" 
+                                        value="emprendedor" 
+                                        class="role-card__input"
+                                        required
+                                    >
+                                    <span class="role-card__check">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                            <polyline points="20 6 9 17 4 12"/>
+                                        </svg>
+                                    </span>
+                                    <span class="role-card__icon">💼</span>
+                                    <h4 class="role-card__title">Emprendedor</h4>
+                                    <p class="role-card__description">
+                                        Quiero capacitarme y hacer crecer mi negocio
+                                    </p>
+                                </label>
+
+                                <!-- Rol: Facilitador -->
+                                <label class="role-card" for="role-facilitador">
+                                    <input 
+                                        type="radio" 
+                                        id="role-facilitador" 
+                                        name="role" 
+                                        value="facilitador" 
+                                        class="role-card__input"
+                                    >
+                                    <span class="role-card__check">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                            <polyline points="20 6 9 17 4 12"/>
+                                        </svg>
+                                    </span>
+                                    <span class="role-card__icon">👨‍🏫</span>
+                                    <h4 class="role-card__title">Facilitador</h4>
+                                    <p class="role-card__description">
+                                        Soy profesor y quiero capacitar emprendedores
+                                    </p>
+                                </label>
+
+                                <!-- Rol: Cliente -->
+                                <label class="role-card" for="role-cliente">
+                                    <input 
+                                        type="radio" 
+                                        id="role-cliente" 
+                                        name="role" 
+                                        value="cliente" 
+                                        class="role-card__input"
+                                    >
+                                    <span class="role-card__check">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                            <polyline points="20 6 9 17 4 12"/>
+                                        </svg>
+                                    </span>
+                                    <span class="role-card__icon">🛍️</span>
+                                    <h4 class="role-card__title">Cliente</h4>
+                                    <p class="role-card__description">
+                                        Quiero descubrir y apoyar negocios locales
+                                    </p>
+                                </label>
+                            </div>
+
+                            <span class="form__error" id="role-error" style="text-align: center;"></span>
+
+                            <button type="button" class="btn btn--primary btn--full" data-next-step="2">
+                                Continuar
+                            </button>
+                        </div>
+
+                        <!-- PASO 2: Datos Personales -->
+                        <div class="form__step" data-step="2">
+                            <div class="form__group">
+                                <label for="register-name" class="form__label">
+                                    Nombre completo *
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="register-name" 
+                                    name="name"
+                                    class="form__input" 
+                                    placeholder="Juan Pérez"
+                                    required
+                                    autocomplete="name"
+                                >
+                                <span class="form__error" id="name-error"></span>
+                            </div>
+
+                            <div class="form__group">
+                                <label for="register-email" class="form__label">
+                                    Correo electrónico *
+                                </label>
+                                <input 
+                                    type="email" 
+                                    id="register-email" 
+                                    name="email"
+                                    class="form__input" 
+                                    placeholder="correo@ejemplo.com"
+                                    required
+                                    autocomplete="email"
+                                >
+                                <span class="form__error" id="email-error"></span>
+                            </div>
+
+                            <div class="form__group">
+                                <label for="register-phone" class="form__label">
+                                    Teléfono/Celular *
+                                </label>
+                                <input 
+                                    type="tel" 
+                                    id="register-phone" 
+                                    name="phone"
+                                    class="form__input" 
+                                    placeholder="999 888 777"
+                                    required
+                                    pattern="[0-9]{9}"
+                                    autocomplete="tel"
+                                >
+                                <span class="form__helper">Para recordatorios por WhatsApp/SMS</span>
+                                <span class="form__error" id="phone-error"></span>
+                            </div>
+
+                            <div class="form__group">
+                                <label for="register-password" class="form__label">
+                                    Contraseña *
+                                </label>
+                                <div class="form__input-wrapper">
+                                    <input 
+                                        type="password" 
+                                        id="register-password" 
+                                        name="password"
+                                        class="form__input" 
+                                        placeholder="Mínimo 6 caracteres"
+                                        required
+                                        minlength="6"
+                                        autocomplete="new-password"
+                                    >
+                                    <button 
+                                        type="button" 
+                                        class="form__toggle-password" 
+                                        aria-label="Mostrar contraseña"
+                                    >
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2"/>
+                                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <span class="form__error" id="password-error"></span>
+                            </div>
+
+                            <div class="form__actions">
+                                <button type="button" class="btn btn--secondary" data-prev-step="1">
+                                    Volver
+                                </button>
+                                <button type="button" class="btn btn--primary" data-next-step="3">
+                                    Continuar
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- PASO 3: Información Específica del Rol -->
+                        <div class="form__step" data-step="3">
+                            <!-- Campos para EMPRENDEDOR -->
+                            <div id="emprendedor-fields" class="role-specific-fields">
+                                <h3 style="margin-bottom: var(--spacing-md);">Sobre tu negocio</h3>
+
+                                <div class="form__group">
+                                    <label for="business-name" class="form__label">
+                                        Nombre del negocio *
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        id="business-name" 
+                                        name="businessName"
+                                        class="form__input" 
+                                        placeholder="Mi Bodega"
+                                    >
+                                    <span class="form__error" id="businessName-error"></span>
+                                </div>
+
+                                <div class="form__group">
+                                    <label for="business-sector" class="form__label">
+                                        Rubro *
+                                    </label>
+                                    <select 
+                                        id="business-sector" 
+                                        name="businessSector"
+                                        class="form__select"
+                                    >
+                                        <option value="">Selecciona tu rubro</option>
+                                        <option value="bodega">Bodega/Tienda de abarrotes</option>
+                                        <option value="comida">Comida/Gastronomía</option>
+                                        <option value="ropa">Ropa/Textil</option>
+                                        <option value="belleza">Belleza/Estética</option>
+                                        <option value="tecnologia">Tecnología/Reparaciones</option>
+                                        <option value="artesania">Artesanía</option>
+                                        <option value="servicios">Servicios profesionales</option>
+                                        <option value="otro">Otro</option>
+                                    </select>
+                                    <span class="form__error" id="businessSector-error"></span>
+                                </div>
+
+                                <div class="form__group">
+                                    <label class="form__label">
+                                        ¿Cuál es tu principal objetivo? *
+                                    </label>
+                                    <div class="form__radio-group">
+                                        <label class="form__radio">
+                                            <input type="radio" name="goal" value="finanzas">
+                                            <span class="form__radio-label">Mejorar control financiero</span>
+                                        </label>
+                                        <label class="form__radio">
+                                            <input type="radio" name="goal" value="ventas">
+                                            <span class="form__radio-label">Aumentar ventas</span>
+                                        </label>
+                                        <label class="form__radio">
+                                            <input type="radio" name="goal" value="marketing">
+                                            <span class="form__radio-label">Mejorar marketing digital</span>
+                                        </label>
+                                        <label class="form__radio">
+                                            <input type="radio" name="goal" value="clientes">
+                                            <span class="form__radio-label">Gestionar mejor mis clientes</span>
+                                        </label>
+                                    </div>
+                                    <span class="form__error" id="goal-error"></span>
+                                </div>
+
+                                <div class="form__group">
+                                    <label class="form__label">
+                                        ¿Cómo es tu conectividad? *
+                                    </label>
+                                    <div class="form__radio-group">
+                                        <label class="form__radio">
+                                            <input type="radio" name="connectivity" value="buena">
+                                            <span class="form__radio-label">Buena (internet constante)</span>
+                                        </label>
+                                        <label class="form__radio">
+                                            <input type="radio" name="connectivity" value="intermitente">
+                                            <span class="form__radio-label">Intermitente (a veces falla)</span>
+                                        </label>
+                                        <label class="form__radio">
+                                            <input type="radio" name="connectivity" value="limitada">
+                                            <span class="form__radio-label">Limitada (prefiero SMS/WhatsApp)</span>
+                                        </label>
+                                    </div>
+                                    <span class="form__helper">Esto nos ayuda a personalizar tu experiencia</span>
+                                    <span class="form__error" id="connectivity-error"></span>
+                                </div>
+                            </div>
+
+                            <!-- Campos para FACILITADOR -->
+                            <div id="facilitador-fields" class="role-specific-fields" style="display: none;">
+                                <h3 style="margin-bottom: var(--spacing-md);">Sobre tu experiencia como facilitador</h3>
+
+                                <div class="form__group">
+                                    <label for="institution" class="form__label">
+                                        Institución donde trabajas
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        id="institution" 
+                                        name="institution"
+                                        class="form__input" 
+                                        placeholder="Universidad, ONG, Instituto..."
+                                    >
+                                    <span class="form__error" id="institution-error"></span>
+                                </div>
+
+                                <div class="form__group">
+                                    <label for="specialization" class="form__label">
+                                        Área de especialización *
+                                    </label>
+                                    <select 
+                                        id="specialization" 
+                                        name="specialization"
+                                        class="form__select"
+                                    >
+                                        <option value="">Selecciona tu especialización</option>
+                                        <option value="finanzas">Finanzas y Contabilidad</option>
+                                        <option value="marketing">Marketing Digital</option>
+                                        <option value="ventas">Ventas y Atención al Cliente</option>
+                                        <option value="operaciones">Operaciones y Logística</option>
+                                        <option value="legal">Legal y Formalización</option>
+                                        <option value="liderazgo">Liderazgo y Desarrollo Personal</option>
+                                        <option value="otro">Otra área</option>
+                                    </select>
+                                    <span class="form__error" id="specialization-error"></span>
+                                </div>
+
+                                <div class="form__group">
+                                    <label for="experience" class="form__label">
+                                        Años de experiencia capacitando *
+                                    </label>
+                                    <select 
+                                        id="experience" 
+                                        name="experience"
+                                        class="form__select"
+                                    >
+                                        <option value="">Selecciona tu experiencia</option>
+                                        <option value="0-2">0-2 años</option>
+                                        <option value="3-5">3-5 años</option>
+                                        <option value="6-10">6-10 años</option>
+                                        <option value="10+">Más de 10 años</option>
+                                    </select>
+                                    <span class="form__error" id="experience-error"></span>
+                                </div>
+
+                                <div class="form__group">
+                                    <label for="motivation" class="form__label">
+                                        ¿Por qué quieres unirte a SUMAK? *
+                                    </label>
+                                    <textarea 
+                                        id="motivation" 
+                                        name="motivation"
+                                        class="form__input" 
+                                        rows="3"
+                                        placeholder="Cuéntanos tu motivación..."
+                                        style="resize: vertical;"
+                                    ></textarea>
+                                    <span class="form__error" id="motivation-error"></span>
+                                </div>
+                            </div>
+
+                            <!-- Campos para CLIENTE -->
+                            <div id="cliente-fields" class="role-specific-fields" style="display: none;">
+                                <h3 style="margin-bottom: var(--spacing-md);">Cuéntanos sobre tus intereses</h3>
+
+                                <div class="form__group">
+                                    <label for="location" class="form__label">
+                                        ¿En qué distrito vives? *
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        id="location" 
+                                        name="location"
+                                        class="form__input" 
+                                        placeholder="Ej: San Isidro, Miraflores..."
+                                    >
+                                    <span class="form__helper">Para mostrarte negocios cercanos</span>
+                                    <span class="form__error" id="location-error"></span>
+                                </div>
+
+                                <div class="form__group">
+                                    <label class="form__label">
+                                        ¿Qué tipo de negocios te interesan? *
+                                    </label>
+                                    <div class="form__radio-group">
+                                        <label class="form__checkbox">
+                                            <input type="checkbox" name="interests" value="comida">
+                                            <span class="form__checkbox-label">Comida y Gastronomía</span>
+                                        </label>
+                                        <label class="form__checkbox">
+                                            <input type="checkbox" name="interests" value="ropa">
+                                            <span class="form__checkbox-label">Ropa y Accesorios</span>
+                                        </label>
+                                        <label class="form__checkbox">
+                                            <input type="checkbox" name="interests" value="belleza">
+                                            <span class="form__checkbox-label">Belleza y Cuidado Personal</span>
+                                        </label>
+                                        <label class="form__checkbox">
+                                            <input type="checkbox" name="interests" value="artesania">
+                                            <span class="form__checkbox-label">Artesanía</span>
+                                        </label>
+                                        <label class="form__checkbox">
+                                            <input type="checkbox" name="interests" value="servicios">
+                                            <span class="form__checkbox-label">Servicios Profesionales</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="form__group">
+                                    <label class="form__label">
+                                        ¿Cómo prefieres descubrir negocios? *
+                                    </label>
+                                    <div class="form__radio-group">
+                                        <label class="form__radio">
+                                            <input type="radio" name="discoveryMethod" value="cercania">
+                                            <span class="form__radio-label">Por cercanía geográfica</span>
+                                        </label>
+                                        <label class="form__radio">
+                                            <input type="radio" name="discoveryMethod" value="certificacion">
+                                            <span class="form__radio-label">Por certificación SUMAK</span>
+                                        </label>
+                                        <label class="form__radio">
+                                            <input type="radio" name="discoveryMethod" value="rating">
+                                            <span class="form__radio-label">Por mejores valoraciones</span>
+                                        </label>
+                                    </div>
+                                    <span class="form__error" id="discoveryMethod-error"></span>
+                                </div>
+                            </div>
+
+                            <div class="form__actions">
+                                <button type="button" class="btn btn--secondary" data-prev-step="2">
+                                    Volver
+                                </button>
+                                <button type="button" class="btn btn--primary" data-next-step="4">
+                                    Continuar
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- PASO 4: Diagnóstico (solo para Emprendedor) o Finalizar -->
+                        <div class="form__step" data-step="4">
+                            <!-- Diagnóstico para Emprendedor -->
+                            <div id="diagnostic-section">
+                                <div class="diagnostic-intro">
+                                    <h3 class="diagnostic-intro__title">Diagnóstico Rápido</h3>
+                                    <p class="diagnostic-intro__description">
+                                        Responde estas 5 preguntas para crear tu ruta personalizada de aprendizaje
+                                    </p>
+                                </div>
+
+                                <div class="form__group">
+                                    <label class="form__label">
+                                        1. ¿Llevas un registro de tus ingresos y gastos?
+                                    </label>
+                                    <div class="form__radio-group">
+                                        <label class="form__radio">
+                                            <input type="radio" name="q1" value="si">
+                                            <span class="form__radio-label">Sí, de forma digital</span>
+                                        </label>
+                                        <label class="form__radio">
+                                            <input type="radio" name="q1" value="manual">
+                                            <span class="form__radio-label">Sí, en cuaderno</span>
+                                        </label>
+                                        <label class="form__radio">
+                                            <input type="radio" name="q1" value="no">
+                                            <span class="form__radio-label">No, lo hago mentalmente</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="form__group">
+                                    <label class="form__label">
+                                        2. ¿Separas los gastos personales de los del negocio?
+                                    </label>
+                                    <div class="form__radio-group">
+                                        <label class="form__radio">
+                                            <input type="radio" name="q2" value="si">
+                                            <span class="form__radio-label">Sí, siempre</span>
+                                        </label>
+                                        <label class="form__radio">
+                                            <input type="radio" name="q2" value="aveces">
+                                            <span class="form__radio-label">A veces</span>
+                                        </label>
+                                        <label class="form__radio">
+                                            <input type="radio" name="q2" value="no">
+                                            <span class="form__radio-label">No, todo está junto</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="form__group">
+                                    <label class="form__label">
+                                        3. ¿Promocionas tu negocio en redes sociales?
+                                    </label>
+                                    <div class="form__radio-group">
+                                        <label class="form__radio">
+                                            <input type="radio" name="q3" value="si">
+                                            <span class="form__radio-label">Sí, regularmente</span>
+                                        </label>
+                                        <label class="form__radio">
+                                            <input type="radio" name="q3" value="aveces">
+                                            <span class="form__radio-label">Solo de vez en cuando</span>
+                                        </label>
+                                        <label class="form__radio">
+                                            <input type="radio" name="q3" value="no">
+                                            <span class="form__radio-label">No tengo presencia online</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="form__group">
+                                    <label class="form__label">
+                                        4. ¿Sabes cuál es tu producto/servicio más rentable?
+                                    </label>
+                                    <div class="form__radio-group">
+                                        <label class="form__radio">
+                                            <input type="radio" name="q4" value="si">
+                                            <span class="form__radio-label">Sí, lo tengo identificado</span>
+                                        </label>
+                                        <label class="form__radio">
+                                            <input type="radio" name="q4" value="mas-o-menos">
+                                            <span class="form__radio-label">Tengo una idea</span>
+                                        </label>
+                                        <label class="form__radio">
+                                            <input type="radio" name="q4" value="no">
+                                            <span class="form__radio-label">No lo sé</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="form__group">
+                                    <label class="form__label">
+                                        5. ¿Cuánto tiempo puedes dedicar al día para aprender?
+                                    </label>
+                                    <div class="form__radio-group">
+                                        <label class="form__radio">
+                                            <input type="radio" name="q5" value="10-15">
+                                            <span class="form__radio-label">10-15 minutos</span>
+                                        </label>
+                                        <label class="form__radio">
+                                            <input type="radio" name="q5" value="20-30">
+                                            <span class="form__radio-label">20-30 minutos</span>
+                                        </label>
+                                        <label class="form__radio">
+                                            <input type="radio" name="q5" value="mas">
+                                            <span class="form__radio-label">Más de 30 minutos</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Mensaje de bienvenida para otros roles -->
+                            <div id="welcome-section" style="display: none; text-align: center; padding: var(--spacing-xl) 0;">
+                                <div style="font-size: 4rem; margin-bottom: var(--spacing-md);">🎉</div>
+                                <h3 style="margin-bottom: var(--spacing-md);">¡Ya casi terminamos!</h3>
+                                <p style="color: var(--color-text-secondary); margin-bottom: var(--spacing-lg);">
+                                    Solo falta aceptar los términos y condiciones para completar tu registro.
+                                </p>
+                            </div>
+
+                            <div class="form__group">
+                                <label class="form__checkbox">
+                                    <input type="checkbox" name="terms" id="terms" required>
+                                    <span class="form__checkbox-label">
+                                        Acepto los <a href="#" class="form__link">Términos y Condiciones</a> 
+                                        y la <a href="#" class="form__link">Política de Privacidad</a>
+                                    </span>
+                                </label>
+                                <span class="form__error" id="terms-error"></span>
+                            </div>
+                            <div class="form__actions">
+                            <button type="button" class="btn btn--secondary" data-prev-step="3">
+                                Volver
+                            </button>
+                            <button type="submit" class="btn btn--primary" id="submit-registration">
+                                Crear mi cuenta
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Mensaje de error general -->
+                    <div class="form__message form__message--error" id="register-error" style="display: none;">
+                    </div>
+                </form>
+
+                <p class="auth-form__footer">
+                    ¿Ya tienes cuenta? 
+                    <a href="login.html" class="form__link--bold">Inicia sesión</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Columna Derecha: Beneficios -->
+        <div class="auth-page__visual">
+            <div class="auth-visual">
+                <div class="auth-visual__content">
+                    <h2 class="auth-visual__title">Más de 1,000 emprendedores confían en SUMAK</h2>
+                    
+                    <div class="auth-visual__testimonial">
+                        <blockquote class="testimonial-mini">
+                            <p class="testimonial-mini__text">
+                                "En solo 2 meses logré separar mis gastos personales del negocio. 
+                                Ahora sé exactamente cuánto gano."
+                            </p>
+                            <footer class="testimonial-mini__author">
+                                <img src="images/MariaGonzales.png" alt="María González" class="testimonial-mini__avatar">
+                                <div>
+                                    <strong>María González</strong>
+                                    <span>Tienda de Ropa - San Miguel</span>
+                                </div>
+                            </footer>
+                        </blockquote>
+                    </div>
+
+                    <ul class="auth-visual__stats">
+                        <li class="stat-mini">
+                            <span class="stat-mini__value">85%</span>
+                            <span class="stat-mini__label">Mejora en gestión</span>
+                        </li>
+                        <li class="stat-mini">
+                            <span class="stat-mini__value">75%</span>
+                            <span class="stat-mini__label">Completan 4 semanas</span>
+                        </li>
+                        <li class="stat-mini">
+                            <span class="stat-mini__value">70%</span>
+                            <span class="stat-mini__label">Retención mensual</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="js/utils.js"></script>
+<script src="js/auth.js"></script>
+<script>
+    // Script adicional para manejo de selección de roles
+    document.addEventListener('DOMContentLoaded', () => {
+        const roleCards = document.querySelectorAll('.role-card');
+        const roleInputs = document.querySelectorAll('input[name="role"]');
+        
+        // Manejar selección de tarjetas de rol
+        roleCards.forEach(card => {
+            card.addEventListener('click', () => {
+                // Remover selección de todas las tarjetas
+                roleCards.forEach(c => c.classList.remove('selected'));
+                
+                // Agregar selección a la tarjeta clickeada
+                card.classList.add('selected');
+                
+                // Marcar el radio button correspondiente
+                const input = card.querySelector('input[type="radio"]');
+                if (input) {
+                    input.checked = true;
+                    
+                    // Limpiar error si existía
+                    const errorElement = document.getElementById('role-error');
+                    if (errorElement) {
+                        errorElement.textContent = '';
+                        errorElement.style.display = 'none';
+                    }
+                }
+            });
+        });
+
+        // También permitir selección por radio button directamente
+        roleInputs.forEach(input => {
+            input.addEventListener('change', () => {
+                roleCards.forEach(card => {
+                    const cardInput = card.querySelector('input[type="radio"]');
+                    if (cardInput === input) {
+                        card.classList.add('selected');
+                    } else {
+                        card.classList.remove('selected');
+                    }
+                });
+            });
+        });
+
+        // Manejar navegación entre pasos con validación de rol
+        const nextButtons = document.querySelectorAll('[data-next-step]');
+        nextButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const currentStep = button.closest('.form__step');
+                const stepNumber = parseInt(currentStep.dataset.step);
+                
+                // Validar rol en el paso 1
+                if (stepNumber === 1) {
+                    const selectedRole = document.querySelector('input[name="role"]:checked');
+                    if (!selectedRole) {
+                        const errorElement = document.getElementById('role-error');
+                        errorElement.textContent = 'Por favor selecciona un tipo de cuenta';
+                        errorElement.style.display = 'block';
+                        return;
+                    }
+                }
+                
+                // Continuar con la navegación normal del auth.js
+            });
+        });
+
+        // Mostrar/ocultar campos según rol seleccionado al llegar al paso 3
+        const step3NextButton = document.querySelector('[data-step="2"] [data-next-step="3"]');
+        if (step3NextButton) {
+            step3NextButton.addEventListener('click', () => {
+                setTimeout(() => {
+                    updateFieldsByRole();
+                }, 100);
+            });
+        }
+
+        // Actualizar campos del paso 4 (diagnóstico solo para emprendedor)
+        const step4NextButton = document.querySelector('[data-step="3"] [data-next-step="4"]');
+        if (step4NextButton) {
+            step4NextButton.addEventListener('click', () => {
+                setTimeout(() => {
+                    updateDiagnosticSection();
+                }, 100);
+            });
+        }
+    });
+
+    /**
+     * Actualiza los campos visibles según el rol seleccionado
+     */
+    function updateFieldsByRole() {
+        const selectedRole = document.querySelector('input[name="role"]:checked');
+        if (!selectedRole) return;
+
+        const role = selectedRole.value;
+        
+        // Ocultar todos los campos específicos de rol
+        document.querySelectorAll('.role-specific-fields').forEach(section => {
+            section.style.display = 'none';
+        });
+
+        // Mostrar solo los campos del rol seleccionado
+        const fieldsToShow = document.getElementById(`${role}-fields`);
+        if (fieldsToShow) {
+            fieldsToShow.style.display = 'block';
+            
+            // Marcar campos como requeridos o no según el rol
+            updateRequiredFields(role);
+        }
+    }
+
+    /**
+     * Actualiza qué campos son requeridos según el rol
+     */
+    function updateRequiredFields(role) {
+        // Remover required de todos los campos específicos de rol
+        document.querySelectorAll('.role-specific-fields input, .role-specific-fields select, .role-specific-fields textarea').forEach(field => {
+            field.removeAttribute('required');
+        });
+
+        // Agregar required solo a los campos del rol activo
+        const activeFields = document.getElementById(`${role}-fields`);
+        if (activeFields) {
+            // Para emprendedor
+            if (role === 'emprendedor') {
+                const requiredFields = ['businessName', 'businessSector', 'goal', 'connectivity'];
+                requiredFields.forEach(fieldName => {
+                    const field = activeFields.querySelector(`[name="${fieldName}"]`);
+                    if (field) field.setAttribute('required', 'required');
+                });
+            }
+            
+            // Para facilitador
+            if (role === 'facilitador') {
+                const requiredFields = ['specialization', 'experience', 'motivation'];
+                requiredFields.forEach(fieldName => {
+                    const field = activeFields.querySelector(`[name="${fieldName}"]`);
+                    if (field) field.setAttribute('required', 'required');
+                });
+            }
+            
+            // Para cliente
+            if (role === 'cliente') {
+                const requiredFields = ['location', 'discoveryMethod'];
+                requiredFields.forEach(fieldName => {
+                    const field = activeFields.querySelector(`[name="${fieldName}"]`);
+                    if (field) field.setAttribute('required', 'required');
+                });
+            }
+        }
+    }
+
+    /**
+     * Muestra u oculta la sección de diagnóstico según el rol
+     */
+    function updateDiagnosticSection() {
+        const selectedRole = document.querySelector('input[name="role"]:checked');
+        if (!selectedRole) return;
+
+        const role = selectedRole.value;
+        const diagnosticSection = document.getElementById('diagnostic-section');
+        const welcomeSection = document.getElementById('welcome-section');
+
+        if (role === 'emprendedor') {
+            // Mostrar diagnóstico solo para emprendedores
+            diagnosticSection.style.display = 'block';
+            welcomeSection.style.display = 'none';
+        } else {
+            // Mostrar mensaje de bienvenida para otros roles
+            diagnosticSection.style.display = 'none';
+            welcomeSection.style.display = 'block';
+        }
+    }
+</script>
+</body>
+</html>

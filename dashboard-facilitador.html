@@ -1,0 +1,1651 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel del Facilitador - SUMAK</title>
+     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="images/SumakLogo_.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/SumakLogo_.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/SumakLogo_.png">
+    <link rel="shortcut icon" href="images/SumakLogo_.png">
+    
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        /* Estilos mejorados del dashboard facilitador */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+            background-color: var(--color-background);
+        }
+
+        .sidebar {
+            background-color: var(--color-surface);
+            padding: var(--spacing-lg);
+            border-right: 1px solid var(--color-border);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar__header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-xl);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .sidebar__logo {
+            width: 40px;
+            height: 40px;
+        }
+
+        .sidebar__brand {
+            font-family: var(--font-family-primary);
+            font-size: 1.5rem;
+            font-weight: var(--font-weight-black);
+            color: var(--color-primary);
+        }
+
+        .sidebar__nav {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+        }
+
+        .sidebar__link {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm);
+            color: var(--color-text-secondary);
+            border-radius: var(--border-radius-md);
+            transition: all var(--transition-fast);
+        }
+
+        .sidebar__link:hover,
+        .sidebar__link--active {
+            background-color: var(--color-primary-lightest);
+            color: var(--color-primary);
+        }
+
+        .sidebar__link svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .main-content {
+            padding: var(--spacing-xl);
+            overflow-y: auto;
+        }
+
+        .dashboard-header {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .dashboard-header__top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .dashboard-header__title {
+            font-size: 2rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .dashboard-header__subtitle {
+            color: var(--color-text-secondary);
+        }
+
+        .dashboard-header__actions {
+            display: flex;
+            gap: var(--spacing-sm);
+            align-items: center;
+        }
+
+        .user-menu {
+            position: relative;
+        }
+
+        .user-menu__toggle {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: 0.5rem 1rem;
+            background-color: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius-full);
+            cursor: pointer;
+        }
+
+        .user-menu__avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background-color: var(--color-primary);
+            color: white;
+            font-weight: var(--font-weight-semibold);
+            border-radius: var(--border-radius-full);
+        }
+
+        .user-menu__dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            right: 0;
+            min-width: 200px;
+            background-color: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-lg);
+            z-index: var(--z-index-dropdown);
+        }
+
+        .user-menu__dropdown.is-open {
+            display: block;
+        }
+
+        .user-menu__item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-md);
+            color: var(--color-text-primary);
+            transition: background-color var(--transition-fast);
+        }
+
+        .user-menu__item:hover {
+            background-color: var(--color-background);
+        }
+
+        .user-menu__item--danger {
+            color: var(--color-error);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .stat-card {
+            padding: var(--spacing-lg);
+            background-color: var(--color-surface);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-normal);
+        }
+
+        .stat-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .stat-card__icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background-color: var(--color-primary-lightest);
+            color: var(--color-primary);
+            border-radius: var(--border-radius-md);
+            margin-bottom: var(--spacing-sm);
+            font-size: 1.5rem;
+        }
+
+        .stat-card__label {
+            font-size: var(--font-size-small);
+            color: var(--color-text-tertiary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .stat-card__value {
+            font-family: var(--font-family-primary);
+            font-size: 2rem;
+            font-weight: var(--font-weight-black);
+            color: var(--color-text-primary);
+        }
+
+        .stat-card__change {
+            font-size: var(--font-size-small);
+            color: var(--color-success);
+            margin-top: var(--spacing-xs);
+        }
+
+        .filters {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background-color: var(--color-surface);
+            border: 2px solid var(--color-border);
+            border-radius: var(--border-radius-full);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background-color: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+
+        .students-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .student-card {
+            padding: var(--spacing-lg);
+            background-color: var(--color-surface);
+            border: 2px solid var(--color-border);
+            border-radius: var(--border-radius-lg);
+            transition: all var(--transition-normal);
+        }
+
+        .student-card:hover {
+            border-color: var(--color-primary);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .student-card__header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .student-card__avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+            color: white;
+            font-weight: var(--font-weight-bold);
+            font-size: 1.25rem;
+            border-radius: var(--border-radius-full);
+            flex-shrink: 0;
+        }
+
+        .student-card__info {
+            flex: 1;
+        }
+
+        .student-card__name {
+            font-size: 1.125rem;
+            font-weight: var(--font-weight-semibold);
+            margin-bottom: 0.25rem;
+        }
+
+        .student-card__status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            font-size: var(--font-size-small);
+            font-weight: var(--font-weight-semibold);
+            border-radius: var(--border-radius-full);
+        }
+
+        .student-card__status--activo {
+            background-color: #E8F5E9;
+            color: var(--color-success);
+        }
+
+        .student-card__status--rezagado {
+            background-color: #FFEBEE;
+            color: var(--color-error);
+        }
+
+        .student-card__status--inactivo {
+            background-color: #F5F5F5;
+            color: var(--color-text-tertiary);
+        }
+
+        .student-card__business {
+            font-size: var(--font-size-small);
+            color: var(--color-text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        .student-card__progress {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .student-card__progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-xs);
+            font-size: var(--font-size-small);
+        }
+
+        .student-card__progress-text {
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-primary);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: var(--color-background);
+            border-radius: var(--border-radius-full);
+            overflow: hidden;
+        }
+
+        .progress-bar__fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+            border-radius: var(--border-radius-full);
+            transition: width 0.5s ease-out;
+        }
+
+        .student-card__stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+            padding: var(--spacing-sm);
+            background-color: var(--color-background);
+            border-radius: var(--border-radius-md);
+        }
+
+        .student-stat {
+            text-align: center;
+        }
+
+        .student-stat__value {
+            display: block;
+            font-size: 1.25rem;
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+        }
+
+        .student-stat__label {
+            display: block;
+            font-size: var(--font-size-small);
+            color: var(--color-text-tertiary);
+            margin-top: 0.25rem;
+        }
+
+        .student-card__meta {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            font-size: var(--font-size-small);
+            color: var(--color-text-tertiary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .student-card__meta svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .student-card__actions {
+            display: flex;
+            gap: var(--spacing-xs);
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .quick-action-card {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-lg);
+            background-color: var(--color-surface);
+            border: 2px solid var(--color-border);
+            border-radius: var(--border-radius-lg);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .quick-action-card:hover {
+            border-color: var(--color-primary);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .quick-action-card__icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background-color: var(--color-primary-lightest);
+            color: var(--color-primary);
+            border-radius: var(--border-radius-md);
+            font-size: 1.5rem;
+        }
+
+        .quick-action-card__content h3 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .quick-action-card__content p {
+            font-size: var(--font-size-small);
+            color: var(--color-text-secondary);
+        }
+
+        @media (max-width: 767px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                padding: var(--spacing-md);
+            }
+
+            .dashboard-header__top {
+                flex-direction: column;
+                gap: var(--spacing-md);
+                align-items: flex-start;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .students-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        DASHBOARD DEL FACILITADOR
+        US-045: Crear microtareas prácticas
+        US-059: Ver progreso de alumnos en tablero
+        US-046: Verificar evidencias de tareas
+    -->
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar__header">
+                <img src="images/SumakLogo_.png" alt="SUMAK" class="sidebar__logo">
+                <span class="sidebar__brand">SUMAK</span>
+            </div>
+
+            <nav class="sidebar__nav">
+                <a href="#" class="sidebar__link sidebar__link--active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                    </svg>
+                    <span>Inicio</span>
+                </a>
+                <a href="#" class="sidebar__link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 010 7.75"/>
+                    </svg>
+                    <span>Mis Alumnos</span>
+                </a>
+                <a href="#" class="sidebar__link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="12" y1="18" x2="12" y2="12"/>
+                        <line x1="9" y1="15" x2="15" y2="15"/>
+                    </svg>
+                    <span>Crear Microtarea</span>
+                </a>
+                <a href="#" class="sidebar__link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 11l3 3L22 4"/>
+                        <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+                    </svg>
+                    <span>Revisar Evidencias</span>
+                </a>
+                <a href="#" class="sidebar__link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"/>
+                        <rect x="14" y="3" width="7" height="7"/>
+                        <rect x="14" y="14" width="7" height="7"/>
+                        <rect x="3" y="14" width="7" height="7"/>
+                    </svg>
+                    <span>Tablero Kanban</span>
+                </a>
+                <a href="#" class="sidebar__link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="1" x2="12" y2="23"/>
+                        <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+                    </svg>
+                    <span>Reportes</span>
+                </a>
+                <a href="contacto.html" class="sidebar__link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                    <span>Ayuda</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Contenido Principal -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="dashboard-header__top">
+                    <div>
+                        <h1 class="dashboard-header__title">
+                            ¡Hola, <span data-user-name>Facilitador</span>! 👨‍🏫
+                        </h1>
+                        <p class="dashboard-header__subtitle">
+                            Gestiona el progreso de tus alumnos y crea nuevas microtareas
+                        </p>
+                    </div>
+
+                    <div class="dashboard-header__actions">
+                        <button class="btn btn--primary" id="create-task-btn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"/>
+                                <line x1="5" y1="12" x2="19" y2="12"/>
+                            </svg>
+                            Nueva Microtarea
+                        </button>
+
+                        <div class="user-menu">
+                            <button class="user-menu__toggle" id="user-menu-toggle">
+                                <div class="user-menu__avatar" data-user-avatar>F</div>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6 9 12 15 18 9"/>
+                                </svg>
+                            </button>
+
+                            <div class="user-menu__dropdown" id="user-menu">
+                                <a href="#" class="user-menu__item">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="3"/>
+                                        <path d="M12 1v6m0 6v6"/>
+                                    </svg>
+                                    <span>Mi Perfil</span>
+                                </a>
+                                <a href="#" class="user-menu__item">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="3"/>
+                                        <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+                                    </svg>
+                                    <span>Configuración</span>
+                                </a>
+                                <a href="#" class="user-menu__item user-menu__item--danger" id="logout-btn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+                                        <polyline points="16 17 21 12 16 7"/>
+                                        <line x1="21" y1="12" x2="9" y2="12"/>
+                                    </svg>
+                                    <span>Cerrar Sesión</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Métricas del Facilitador -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card__icon">👥</div>
+                    <div class="stat-card__label">Total Alumnos</div>
+                    <div class="stat-card__value">42</div>
+                    <div class="stat-card__change">+3 este mes</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card__icon">📝</div>
+                    <div class="stat-card__label">Tareas Activas</div>
+                    <div class="stat-card__value">15</div>
+                    <div class="stat-card__change">8 por revisar</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card__icon">✅</div>
+                    <div class="stat-card__label">Tasa de Completitud</div>
+                    <div class="stat-card__value">75%</div>
+                    <div class="stat-card__change">+5% vs mes anterior</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card__icon">⭐</div>
+                    <div class="stat-card__label">Satisfacción</div>
+                    <div class="stat-card__value">4.8/5</div>
+                    <div class="stat-card__change">Excelente</div>
+                </div>
+            </div>
+
+           <!-- Lista de Alumnos -->
+            <section class="tasks-section" style="margin-bottom: var(--spacing-xl);">
+                <div class="section-header">
+                    <h2 class="section-title">Mis Alumnos</h2>
+                    <button class="btn btn--outline btn--small" onclick="showAllStudents()">
+                        Ver todos los alumnos
+                    </button>
+                </div>
+
+                <!-- Filtros -->
+                <div class="filters">
+                    <button class="filter-btn active" data-filter="all">Todos (42)</button>
+                    <button class="filter-btn" data-filter="activo">Activos (35)</button>
+                    <button class="filter-btn" data-filter="rezagado">Rezagados (5)</button>
+                    <button class="filter-btn" data-filter="inactivo">Inactivos (2)</button>
+                </div>
+
+                <div class="students-grid" id="students-grid">
+                    <!-- Los estudiantes se cargarán dinámicamente -->
+                </div>
+            </section>
+
+            <!-- Sección: Mis Microtareas Creadas -->
+            <section class="tasks-section" style="margin-bottom: var(--spacing-xl);">
+                <div class="section-header">
+                    <h2 class="section-title">Microtareas Creadas</h2>
+                    <button class="btn btn--primary" id="create-microtask-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        Crear Nueva Microtarea
+                    </button>
+                </div>
+
+                <div class="microtasks-grid" id="microtasks-grid">
+                    <!-- Las microtareas se cargarán dinámicamente -->
+                </div>
+            </section>
+
+            <!-- Sección: Evidencias Pendientes de Revisión -->
+            <section class="tasks-section">
+                <div class="section-header">
+                    <h2 class="section-title">Evidencias Pendientes de Revisión</h2>
+                    <span class="badge badge--warning">8 pendientes</span>
+                </div>
+
+                <div class="evidences-list" id="evidences-list">
+                    <!-- Las evidencias se cargarán dinámicamente -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal: Crear Microtarea -->
+    <div class="modal" id="create-microtask-modal">
+        <div class="modal__overlay"></div>
+        <div class="modal__container" style="max-width: 700px;">
+            <div class="modal__header">
+                <h2 class="modal__title">Crear Nueva Microtarea</h2>
+                <button class="modal__close" aria-label="Cerrar modal">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="modal__body">
+                <form id="microtask-form" class="form">
+                    <div class="form__group">
+                        <label for="task-title" class="form__label">Título de la tarea *</label>
+                        <input 
+                            type="text" 
+                            id="task-title" 
+                            name="title"
+                            class="form__input" 
+                            placeholder="Ej: Registrar ventas del día"
+                            required
+                        >
+                    </div>
+
+                    <div class="form__group">
+                        <label for="task-description" class="form__label">Descripción *</label>
+                        <textarea 
+                            id="task-description" 
+                            name="description"
+                            class="form__input" 
+                            rows="4"
+                            placeholder="Describe paso a paso lo que el alumno debe hacer..."
+                            required
+                            style="resize: vertical;"
+                        ></textarea>
+                    </div>
+
+                    <div class="form__row">
+                        <div class="form__group">
+                            <label for="task-category" class="form__label">Categoría *</label>
+                            <select id="task-category" name="category" class="form__select" required>
+                                <option value="">Selecciona una categoría</option>
+                                <option value="finanzas">💰 Finanzas</option>
+                                <option value="marketing">📱 Marketing</option>
+                                <option value="ventas">🛍️ Ventas</option>
+                                <option value="operaciones">⚙️ Operaciones</option>
+                                <option value="legal">📋 Legal</option>
+                            </select>
+                        </div>
+
+                        <div class="form__group">
+                            <label for="task-difficulty" class="form__label">Dificultad *</label>
+                            <select id="task-difficulty" name="difficulty" class="form__select" required>
+                                <option value="">Selecciona dificultad</option>
+                                <option value="facil">Fácil</option>
+                                <option value="media">Media</option>
+                                <option value="dificil">Difícil</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form__row">
+                        <div class="form__group">
+                            <label for="task-time" class="form__label">Tiempo estimado *</label>
+                            <input 
+                                type="text" 
+                                id="task-time" 
+                                name="timeEstimate"
+                                class="form__input" 
+                                placeholder="Ej: 15 minutos"
+                                required
+                            >
+                        </div>
+
+                        <div class="form__group">
+                            <label for="task-priority" class="form__label">Prioridad *</label>
+                            <select id="task-priority" name="priority" class="form__select" required>
+                                <option value="">Selecciona prioridad</option>
+                                <option value="alta">🔴 Alta</option>
+                                <option value="media">🟡 Media</option>
+                                <option value="baja">🟢 Baja</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form__group">
+                        <label class="form__label">Asignar a:</label>
+                        <div class="form__radio-group">
+                            <label class="form__radio">
+                                <input type="radio" name="assignTo" value="all" checked>
+                                <span class="form__radio-label">Todos mis alumnos</span>
+                            </label>
+                            <label class="form__radio">
+                                <input type="radio" name="assignTo" value="specific">
+                                <span class="form__radio-label">Alumnos específicos</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form__group" id="students-selector" style="display: none;">
+                        <label class="form__label">Selecciona alumnos:</label>
+                        <div class="students-checklist" id="students-checklist">
+                            <!-- Se cargará dinámicamente -->
+                        </div>
+                    </div>
+
+                    <div class="form__actions">
+                        <button type="button" class="btn btn--outline" onclick="closeCreateMicrotaskModal()">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn--primary">
+                            Crear Microtarea
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Ver Resultados de Microtarea -->
+    <div class="modal" id="task-results-modal">
+        <div class="modal__overlay"></div>
+        <div class="modal__container" style="max-width: 900px;">
+            <div class="modal__header">
+                <h2 class="modal__title" id="task-results-title">Resultados de la Microtarea</h2>
+                <button class="modal__close" aria-label="Cerrar modal">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="modal__body">
+                <!-- Estadísticas generales -->
+                <div class="results-stats">
+                    <div class="result-stat-card">
+                        <div class="result-stat-card__value" id="total-assigned">0</div>
+                        <div class="result-stat-card__label">Asignados</div>
+                    </div>
+                    <div class="result-stat-card result-stat-card--success">
+                        <div class="result-stat-card__value" id="total-completed">0</div>
+                        <div class="result-stat-card__label">Completados</div>
+                    </div>
+                    <div class="result-stat-card result-stat-card--warning">
+                        <div class="result-stat-card__value" id="total-pending">0</div>
+                        <div class="result-stat-card__label">Pendientes</div>
+                    </div>
+                    <div class="result-stat-card result-stat-card--info">
+                        <div class="result-stat-card__value" id="completion-rate">0%</div>
+                        <div class="result-stat-card__label">Tasa de Completitud</div>
+                    </div>
+                </div>
+
+                <!-- Lista de alumnos y su progreso -->
+                <h3 style="margin: var(--spacing-lg) 0 var(--spacing-md);">Estado por Alumno</h3>
+                <div class="students-results-list" id="students-results-list">
+                    <!-- Se cargará dinámicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Revisar Evidencia -->
+    <div class="modal" id="review-evidence-modal">
+        <div class="modal__overlay"></div>
+        <div class="modal__container" style="max-width: 800px;">
+            <div class="modal__header">
+                <h2 class="modal__title">Revisar Evidencia</h2>
+                <button class="modal__close" aria-label="Cerrar modal">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="modal__body">
+                <div id="evidence-content">
+                    <!-- Se cargará dinámicamente -->
+                </div>
+
+                <div class="form__actions" style="margin-top: var(--spacing-lg);">
+                    <button type="button" class="btn btn--outline" onclick="closeReviewEvidenceModal()">
+                        Cerrar
+                    </button>
+                    <button type="button" class="btn btn--error" onclick="rejectEvidence()">
+                        Rechazar
+                    </button>
+                    <button type="button" class="btn btn--success" onclick="approveEvidence()">
+                        Aprobar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Estilos adicionales -->
+    <style>
+        .microtasks-grid {
+            display: grid;
+            gap: var(--spacing-md);
+        }
+
+        .microtask-card {
+            padding: var(--spacing-lg);
+            background-color: var(--color-surface);
+            border: 2px solid var(--color-border);
+            border-radius: var(--border-radius-lg);
+            transition: all var(--transition-normal);
+        }
+
+        .microtask-card:hover {
+            border-color: var(--color-primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .microtask-card__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .microtask-card__title {
+            font-size: 1.125rem;
+            font-weight: var(--font-weight-semibold);
+            margin-bottom: 0.25rem;
+        }
+
+        .microtask-card__meta {
+            display: flex;
+            gap: var(--spacing-sm);
+            flex-wrap: wrap;
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-small);
+        }
+
+        .microtask-badge {
+            padding: 0.25rem 0.75rem;
+            background-color: var(--color-primary-lightest);
+            color: var(--color-primary);
+            border-radius: var(--border-radius-full);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .microtask-card__stats {
+            display: flex;
+            gap: var(--spacing-md);
+            padding: var(--spacing-sm);
+            background-color: var(--color-background);
+            border-radius: var(--border-radius-md);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .microtask-stat {
+            flex: 1;
+            text-align: center;
+        }
+
+        .microtask-stat__value {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+        }
+
+        .microtask-stat__label {
+            display: block;
+            font-size: var(--font-size-small);
+            color: var(--color-text-tertiary);
+        }
+
+        .microtask-card__actions {
+            display: flex;
+            gap: var(--spacing-xs);
+        }
+
+        .evidences-list {
+            display: grid;
+            gap: var(--spacing-md);
+        }
+
+        .evidence-card {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            background-color: var(--color-surface);
+            border: 2px solid var(--color-border);
+            border-radius: var(--border-radius-md);
+            transition: all var(--transition-fast);
+        }
+
+        .evidence-card:hover {
+            border-color: var(--color-warning);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .evidence-card__avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background-color: var(--color-primary);
+            color: white;
+            font-weight: var(--font-weight-bold);
+            border-radius: var(--border-radius-full);
+            flex-shrink: 0;
+        }
+
+        .evidence-card__info {
+            flex: 1;
+        }
+
+        .evidence-card__student {
+            font-weight: var(--font-weight-semibold);
+            margin-bottom: 0.25rem;
+        }
+
+        .evidence-card__task {
+            font-size: var(--font-size-small);
+            color: var(--color-text-secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        .evidence-card__time {
+            font-size: var(--font-size-small);
+            color: var(--color-text-tertiary);
+        }
+
+        .results-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .result-stat-card {
+            padding: var(--spacing-md);
+            background-color: var(--color-background);
+            border-left: 4px solid var(--color-primary);
+            border-radius: var(--border-radius-md);
+            text-align: center;
+        }
+
+        .result-stat-card--success {
+            border-left-color: var(--color-success);
+        }
+
+        .result-stat-card--warning {
+            border-left-color: var(--color-warning);
+        }
+
+        .result-stat-card--info {
+            border-left-color: var(--color-info);
+        }
+
+        .result-stat-card__value {
+            font-size: 2rem;
+            font-weight: var(--font-weight-black);
+            color: var(--color-text-primary);
+        }
+
+        .result-stat-card__label {
+            font-size: var(--font-size-small);
+            color: var(--color-text-tertiary);
+            margin-top: 0.25rem;
+        }
+
+        .students-results-list {
+            display: grid;
+            gap: var(--spacing-sm);
+        }
+
+        .student-result-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--spacing-sm);
+            background-color: var(--color-background);
+            border-radius: var(--border-radius-md);
+        }
+
+        .student-result-item__name {
+            font-weight: var(--font-weight-medium);
+        }
+
+        .student-result-item__status {
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--border-radius-full);
+            font-size: var(--font-size-small);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .student-result-item__status--completed {
+            background-color: #E8F5E9;
+            color: var(--color-success);
+        }
+
+        .student-result-item__status--pending {
+            background-color: #FFF3E0;
+            color: var(--color-warning);
+        }
+
+        .students-checklist {
+            display: grid;
+            gap: var(--spacing-xs);
+            max-height: 200px;
+            overflow-y: auto;
+            padding: var(--spacing-sm);
+            background-color: var(--color-background);
+            border-radius: var(--border-radius-md);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.375rem 0.75rem;
+            border-radius: var(--border-radius-full);
+            font-size: var(--font-size-small);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .badge--warning {
+            background-color: #FFF3E0;
+            color: var(--color-warning);
+        }
+    </style>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script>
+        // Script específico para el dashboard del facilitador
+        document.addEventListener('DOMContentLoaded', () => {
+            // Datos de estudiantes
+            const students = [
+                { id: 1, name: 'María González', business: 'Bodega La Esquina', progress: 85, tasksCompleted: 12, totalTasks: 15, status: 'activo', lastActivity: '2 horas', streak: 7 },
+                { id: 2, name: 'Carlos Mendoza', business: 'Taller Mendoza', progress: 45, tasksCompleted: 6, totalTasks: 15, status: 'activo', lastActivity: '1 día', streak: 3 },
+                { id: 3, name: 'Ana Quispe', business: 'Repostería Dulce Ana', progress: 92, tasksCompleted: 14, totalTasks: 15, status: 'activo', lastActivity: '30 min', streak: 12 },
+                { id: 4, name: 'José Fernández', business: 'Ferretería Central', progress: 20, tasksCompleted: 3, totalTasks: 15, status: 'rezagado', lastActivity: '5 días', streak: 0 },
+                { id: 5, name: 'Lucía Paredes', business: 'Boutique Lucy', progress: 68, tasksCompleted: 10, totalTasks: 15, status: 'activo', lastActivity: '3 horas', streak: 5 },
+                { id: 6, name: 'Roberto Silva', business: 'Servicios R&S', progress: 55, tasksCompleted: 8, totalTasks: 15, status: 'activo', lastActivity: '6 horas', streak: 4 },
+                { id: 7, name: 'Patricia Vega', business: 'Salón Patricia', progress: 15, tasksCompleted: 2, totalTasks: 15, status: 'rezagado', lastActivity: '7 días', streak: 0 },
+                { id: 8, name: 'Miguel Torres', business: 'Imprenta Digital', progress: 78, tasksCompleted: 11, totalTasks: 15, status: 'activo', lastActivity: '1 hora', streak: 8 }
+            ];
+
+            // Datos de microtareas creadas
+            let microtasks = [
+                { id: 1, title: 'Registrar ventas diarias', category: 'finanzas', difficulty: 'facil', timeEstimate: '10 min', priority: 'alta', assigned: 42, completed: 35, pending: 7, createdAt: '2025-11-01' },
+                { id: 2, title: 'Publicar en redes sociales', category: 'marketing', difficulty: 'facil', timeEstimate: '15 min', priority: 'media', assigned: 42, completed: 30, pending: 12, createdAt: '2025-11-03' },
+                { id: 3, title: 'Calcular margen de ganancia', category: 'finanzas', difficulty: 'media', timeEstimate: '20 min', priority: 'alta', assigned: 42, completed: 28, pending: 14, createdAt: '2025-11-05' }
+            ];
+
+            // Datos de evidencias pendientes
+            const evidences = [
+                { id: 1, studentId: 1, studentName: 'María González', taskTitle: 'Registrar ventas diarias', submittedAt: 'Hace 2 horas', description: 'Adjunto mi registro de ventas del día de hoy' },
+                { id: 2, studentId: 3, studentName: 'Ana Quispe', taskTitle: 'Publicar en redes sociales', submittedAt: 'Hace 4 horas', description: 'Aquí está mi publicación en Facebook' },
+                { id: 3, studentId: 5, studentName: 'Lucía Paredes', taskTitle: 'Calcular margen de ganancia', submittedAt: 'Hace 6 horas', description: 'Calculé el margen de 3 productos' },
+                { id: 4, studentId: 2, studentName: 'Carlos Mendoza', taskTitle: 'Registrar ventas diarias', submittedAt: 'Hace 1 día', description: 'Registro de ventas de la semana' },
+                { id: 5, studentId: 6, studentName: 'Roberto Silva', taskTitle: 'Publicar en redes sociales', submittedAt: 'Hace 1 día', description: 'Publicación realizada en Instagram' },
+                { id: 6, studentId: 8, studentName: 'Miguel Torres', taskTitle: 'Calcular margen de ganancia', submittedAt: 'Hace 2 días', description: 'Análisis de rentabilidad de servicios' },
+                { id: 7, studentId: 1, studentName: 'María González', taskTitle: 'Publicar en redes sociales', submittedAt: 'Hace 2 días', description: 'Post en Facebook e Instagram' },
+                { id: 8, studentId: 3, studentName: 'Ana Quispe', taskTitle: 'Registrar ventas diarias', submittedAt: 'Hace 3 días', description: 'Ventas registradas correctamente' }
+            ];
+
+            // Renderizar estudiantes
+            renderStudents();
+
+            // Renderizar microtareas
+            renderMicrotasks();
+
+            // Renderizar evidencias
+            renderEvidences();
+
+            // Event listeners
+            document.getElementById('create-microtask-btn').addEventListener('click', openCreateMicrotaskModal);
+            document.querySelectorAll('.modal__close, .modal__overlay').forEach(el => {
+                el.addEventListener('click', function() {
+                    this.closest('.modal').classList.remove('modal--active');
+                    document.body.style.overflow = '';
+                });
+            });
+
+            // Form de creación de microtarea
+            const microtaskForm = document.getElementById('microtask-form');
+            const assignToRadios = microtaskForm.querySelectorAll('input[name="assignTo"]');
+            const studentsSelector = document.getElementById('students-selector');
+
+            assignToRadios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    if (radio.value === 'specific') {
+                        studentsSelector.style.display = 'block';
+                        loadStudentsChecklist();
+                    } else {
+                        studentsSelector.style.display = 'none';
+                    }
+                });
+            });
+
+            microtaskForm.addEventListener('submit', handleCreateMicrotask);
+
+            // Filtros de estudiantes
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const filter = btn.dataset.filter;
+                    filterStudents(filter);
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                });
+            });
+
+            function renderStudents() {
+                const studentsGrid = document.getElementById('students-grid');
+                if (studentsGrid) {
+                    studentsGrid.innerHTML = students.map(student => `
+                        <article class="student-card" data-status="${student.status}">
+                            <div class="student-card__header">
+                                <div class="student-card__avatar">${getInitials(student.name)}</div>
+                                <div class="student-card__info">
+                                    <h3 class="student-card__name">${student.name}</h3>
+                                    <span class="student-card__status student-card__status--${student.status}">
+                                        ${student.status.charAt(0).toUpperCase() + student.status.slice(1)}
+                                    </span>
+                                    <div class="student-card__business">📍 ${student.business}</div>
+                                </div>
+                            </div>
+                            
+                            <div class="student-card__progress">
+                                <div class="student-card__progress-label">
+                                    <span>Progreso</span>
+                                    <span class="student-card__progress-text">${student.progress}%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-bar__fill" style="width: ${student.progress}%"></div>
+                                </div>
+                            </div>
+
+                            <div class="student-card__stats">
+                                <div class="student-stat">
+                                    <span class="student-stat__value">${student.tasksCompleted}/${student.totalTasks}</span>
+                                    <span class="student-stat__label">Tareas</span>
+                                </div>
+                                <div class="student-stat">
+                                    <span class="student-stat__value">${student.streak} 🔥</span>
+                                    <span class="student-stat__label">Racha</span>
+                                </div>
+                            </div>
+
+                            <div class="student-card__meta">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <polyline points="12 6 12 12 16 14"/>
+                                </svg>
+                                <span>Última actividad: ${student.lastActivity}</span>
+                            </div>
+
+                            <div class="student-card__actions">
+                                <button class="btn btn--primary btn--small" onclick="viewStudentDetail(${student.id})">
+                                    Ver Detalle
+                                </button>
+                                <button class="btn btn--outline btn--small" onclick="contactStudent(${student.id})">
+                                    💬 Contactar
+                                </button>
+                            </div>
+                        </article>
+                    `).join('');
+                }
+            }
+
+            function renderMicrotasks() {
+                const microtasksGrid = document.getElementById('microtasks-grid');
+                if (microtasksGrid) {
+                    if (microtasks.length === 0) {
+                        microtasksGrid.innerHTML = `
+                            <div style="text-align: center; padding: var(--spacing-3xl); color: var(--color-text-secondary);">
+                                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin: 0 auto var(--spacing-md);">
+                                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                                    <polyline points="14 2 14 8 20 8"/>
+                                </svg>
+                                <h3 style="margin-bottom: var(--spacing-sm);">No has creado microtareas aún</h3>
+                                <p>Crea tu primera microtarea para asignarla a tus alumnos</p>
+                            </div>
+                        `;
+                    } else {
+                        microtasksGrid.innerHTML = microtasks.map(task => {
+                            const completionRate = Math.round((task.completed / task.assigned) * 100);
+                            return `
+                                <article class="microtask-card"><div class="microtask-card__header">
+                                        <div>
+                                            <h3 class="microtask-card__title">${task.title}</h3>
+                                            <div class="microtask-card__meta">
+                                                <span class="microtask-badge">${getCategoryIcon(task.category)} ${task.category}</span>
+                                                <span class="microtask-badge">${task.difficulty}</span>
+                                                <span class="microtask-badge">⏱️ ${task.timeEstimate}</span>
+                                                <span class="microtask-badge">${getPriorityIcon(task.priority)} ${task.priority}</span>
+                                            </div>
+                                        </div>
+                                    </div><div class="microtask-card__stats">
+                                    <div class="microtask-stat">
+                                        <span class="microtask-stat__value">${task.assigned}</span>
+                                        <span class="microtask-stat__label">Asignados</span>
+                                    </div>
+                                    <div class="microtask-stat">
+                                        <span class="microtask-stat__value">${task.completed}</span>
+                                        <span class="microtask-stat__label">Completados</span>
+                                    </div>
+                                    <div class="microtask-stat">
+                                        <span class="microtask-stat__value">${task.pending}</span>
+                                        <span class="microtask-stat__label">Pendientes</span>
+                                    </div>
+                                    <div class="microtask-stat">
+                                        <span class="microtask-stat__value">${completionRate}%</span>
+                                        <span class="microtask-stat__label">Completitud</span>
+                                    </div>
+                                </div>
+                                <div class="microtask-card__stats">
+                                    <div class="microtask-stat">
+                                        <span class="microtask-stat__value">${task.assigned}</span>
+                                        <span class="microtask-stat__label">Asignados</span>
+                                    </div>
+                                    <div class="microtask-stat">
+                                        <span class="microtask-stat__value">${task.completed}</span>
+                                        <span class="microtask-stat__label">Completados</span>
+                                    </div>
+                                    <div class="microtask-stat">
+                                        <span class="microtask-stat__value">${task.pending}</span>
+                                        <span class="microtask-stat__label">Pendientes</span>
+                                    </div>
+                                    <div class="microtask-stat">
+                                        <span class="microtask-stat__value">${completionRate}%</span>
+                                        <span class="microtask-stat__label">Completitud</span>
+                                    </div>
+                                </div>
+
+                                <div class="microtask-card__actions">
+                                    <button class="btn btn--primary btn--small" onclick="viewTaskResults(${task.id})">
+                                        📊 Ver Resultados
+                                    </button>
+                                    <button class="btn btn--outline btn--small" onclick="editTask(${task.id})">
+                                        ✏️ Editar
+                                    </button>
+                                    <button class="btn btn--outline btn--small" onclick="deleteTask(${task.id})">
+                                        🗑️ Eliminar
+                                    </button>
+                                </div>
+                            </article>
+                        `;
+                    }).join('');
+                }
+            }
+        }
+
+        function renderEvidences() {
+            const evidencesList = document.getElementById('evidences-list');
+            if (evidencesList) {
+                evidencesList.innerHTML = evidences.map(evidence => `
+                    <article class="evidence-card">
+                        <div class="evidence-card__avatar">${getInitials(evidence.studentName)}</div>
+                        <div class="evidence-card__info">
+                            <div class="evidence-card__student">${evidence.studentName}</div>
+                            <div class="evidence-card__task">📝 ${evidence.taskTitle}</div>
+                            <div class="evidence-card__time">⏰ ${evidence.submittedAt}</div>
+                        </div>
+                        <button class="btn btn--primary btn--small" onclick="reviewEvidence(${evidence.id})">
+                            Revisar
+                        </button>
+                    </article>
+                `).join('');
+            }
+        }
+
+        function filterStudents(filter) {
+            const studentCards = document.querySelectorAll('.student-card');
+            studentCards.forEach(card => {
+                if (filter === 'all') {
+                    card.style.display = 'block';
+                } else {
+                    const status = card.dataset.status;
+                    card.style.display = status === filter ? 'block' : 'none';
+                }
+            });
+        }
+
+        function openCreateMicrotaskModal() {
+            const modal = document.getElementById('create-microtask-modal');
+            modal.classList.add('modal--active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function loadStudentsChecklist() {
+            const checklist = document.getElementById('students-checklist');
+            checklist.innerHTML = students.map(student => `
+                <label class="form__checkbox">
+                    <input type="checkbox" name="selectedStudents" value="${student.id}">
+                    <span class="form__checkbox-label">${student.name} - ${student.business}</span>
+                </label>
+            `).join('');
+        }
+
+        function handleCreateMicrotask(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const assignTo = formData.get('assignTo');
+            
+            let assignedCount = 0;
+            if (assignTo === 'all') {
+                assignedCount = students.length;
+            } else {
+                const selectedStudents = formData.getAll('selectedStudents');
+                assignedCount = selectedStudents.length;
+                
+                if (assignedCount === 0) {
+                    showToast('Debes seleccionar al menos un alumno', 'error');
+                    return;
+                }
+            }
+
+            const newTask = {
+                id: microtasks.length + 1,
+                title: formData.get('title'),
+                category: formData.get('category'),
+                difficulty: formData.get('difficulty'),
+                timeEstimate: formData.get('timeEstimate'),
+                priority: formData.get('priority'),
+                assigned: assignedCount,
+                completed: 0,
+                pending: assignedCount,
+                createdAt: new Date().toISOString().split('T')[0]
+            };
+
+            microtasks.unshift(newTask);
+            renderMicrotasks();
+
+            closeCreateMicrotaskModal();
+            showToast('¡Microtarea creada exitosamente! 🎉', 'success');
+            
+            e.target.reset();
+        }
+
+        function getInitials(name) {
+            return name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        }
+
+        function getCategoryIcon(category) {
+            const icons = {
+                'finanzas': '💰',
+                'marketing': '📱',
+                'ventas': '🛍️',
+                'operaciones': '⚙️',
+                'legal': '📋'
+            };
+            return icons[category] || '📝';
+        }
+
+        function getPriorityIcon(priority) {
+            const icons = {
+                'alta': '🔴',
+                'media': '🟡',
+                'baja': '🟢'
+            };
+            return icons[priority] || '⚪';
+        }
+
+        // Funciones globales
+        window.viewStudentDetail = function(studentId) {
+            const student = students.find(s => s.id === studentId);
+            if (student) {
+                showToast('Cargando perfil de ' + student.name + '...', 'info');
+            }
+        };
+
+        window.contactStudent = function(studentId) {
+            const student = students.find(s => s.id === studentId);
+            if (student) {
+                showToast('Abriendo chat con ' + student.name + '...', 'info');
+            }
+        };
+
+        window.closeCreateMicrotaskModal = function() {
+            const modal = document.getElementById('create-microtask-modal');
+            modal.classList.remove('modal--active');
+            document.body.style.overflow = '';
+        };
+
+        window.viewTaskResults = function(taskId) {
+            const task = microtasks.find(t => t.id === taskId);
+            if (!task) return;
+
+            // Actualizar título
+            document.getElementById('task-results-title').textContent = 'Resultados: ' + task.title;
+
+            // Actualizar estadísticas
+            document.getElementById('total-assigned').textContent = task.assigned;
+            document.getElementById('total-completed').textContent = task.completed;
+            document.getElementById('total-pending').textContent = task.pending;
+            document.getElementById('completion-rate').textContent = Math.round((task.completed / task.assigned) * 100) + '%';
+
+            // Generar lista de alumnos con estado aleatorio
+            const studentsList = document.getElementById('students-results-list');
+            studentsList.innerHTML = students.slice(0, 10).map(student => {
+                const isCompleted = Math.random() > 0.3; // 70% probabilidad de completado
+                return `
+                    <div class="student-result-item">
+                        <span class="student-result-item__name">${student.name}</span>
+                        <span class="student-result-item__status student-result-item__status--${isCompleted ? 'completed' : 'pending'}">
+                            ${isCompleted ? '✅ Completado' : '⏳ Pendiente'}
+                        </span>
+                    </div>
+                `;
+            }).join('');
+
+            // Abrir modal
+            const modal = document.getElementById('task-results-modal');
+            modal.classList.add('modal--active');
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.editTask = function(taskId) {
+            showToast('Función de edición en desarrollo...', 'info');
+        };
+
+        window.deleteTask = function(taskId) {
+            if (confirm('¿Estás seguro de que deseas eliminar esta microtarea?')) {
+                microtasks = microtasks.filter(t => t.id !== taskId);
+                renderMicrotasks();
+                showToast('Microtarea eliminada correctamente', 'success');
+            }
+        };
+
+        window.reviewEvidence = function(evidenceId) {
+            const evidence = evidences.find(e => e.id === evidenceId);
+            if (!evidence) return;
+
+            // Cargar contenido de la evidencia
+            const evidenceContent = document.getElementById('evidence-content');
+            evidenceContent.innerHTML = `
+                <div style="margin-bottom: var(--spacing-lg);">
+                    <h3 style="margin-bottom: var(--spacing-sm);">Información del Alumno</h3>
+                    <p><strong>Nombre:</strong> ${evidence.studentName}</p>
+                    <p><strong>Tarea:</strong> ${evidence.taskTitle}</p>
+                    <p><strong>Enviado:</strong> ${evidence.submittedAt}</p>
+                </div>
+
+                <div style="margin-bottom: var(--spacing-lg);">
+                    <h3 style="margin-bottom: var(--spacing-sm);">Descripción</h3>
+                    <p>${evidence.description}</p>
+                </div>
+
+                <div style="margin-bottom: var(--spacing-lg);">
+                    <h3 style="margin-bottom: var(--spacing-sm);">Evidencia Adjunta</h3>
+                    <div style="padding: var(--spacing-xl); background-color: var(--color-background); border-radius: var(--border-radius-md); text-align: center;">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin: 0 auto var(--spacing-sm); color: var(--color-primary);">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                            <polyline points="21 15 16 10 5 21"/>
+                        </svg>
+                        <p style="color: var(--color-text-secondary);">Imagen de evidencia<br><small>(Simulación - En producción se mostraría la imagen real)</small></p>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 style="margin-bottom: var(--spacing-sm);">Comentarios (Opcional)</h3>
+                    <textarea 
+                        id="review-comments" 
+                        class="form__input" 
+                        rows="3" 
+                        placeholder="Escribe aquí tus comentarios o retroalimentación..."
+                        style="resize: vertical;"
+                    ></textarea>
+                </div>
+            `;
+
+            // Guardar ID de evidencia para aprobar/rechazar
+            window.currentEvidenceId = evidenceId;
+
+            // Abrir modal
+            const modal = document.getElementById('review-evidence-modal');
+            modal.classList.add('modal--active');
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.closeReviewEvidenceModal = function() {
+            const modal = document.getElementById('review-evidence-modal');
+            modal.classList.remove('modal--active');
+            document.body.style.overflow = '';
+            window.currentEvidenceId = null;
+        };
+
+        window.approveEvidence = function() {
+            if (!window.currentEvidenceId) return;
+
+            const comments = document.getElementById('review-comments').value;
+            
+            // Eliminar evidencia de la lista de pendientes
+            const evidenceIndex = evidences.findIndex(e => e.id === window.currentEvidenceId);
+            if (evidenceIndex !== -1) {
+                evidences.splice(evidenceIndex, 1);
+                renderEvidences();
+            }
+
+            closeReviewEvidenceModal();
+            showToast('✅ Evidencia aprobada exitosamente', 'success');
+        };
+
+        window.rejectEvidence = function() {
+            if (!window.currentEvidenceId) return;
+
+            const comments = document.getElementById('review-comments').value;
+            
+            if (!comments.trim()) {
+                showToast('Debes agregar un comentario explicando el motivo del rechazo', 'error');
+                return;
+            }
+
+            // Eliminar evidencia de la lista de pendientes
+            const evidenceIndex = evidences.findIndex(e => e.id === window.currentEvidenceId);
+            if (evidenceIndex !== -1) {
+                evidences.splice(evidenceIndex, 1);
+                renderEvidences();
+            }
+
+            closeReviewEvidenceModal();
+            showToast('❌ Evidencia rechazada. El alumno recibirá tu retroalimentación.', 'info');
+        };
+
+        window.showAllStudents = function() {
+            showToast('Mostrando todos los alumnos...', 'info');
+        };
+    });
+</script>
+</script>
+</body>
+</html>

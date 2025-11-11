@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursos</title>
+     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="images/SumakLogo_.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/SumakLogo_.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/SumakLogo_.png">
+    <link rel="shortcut icon" href="images/SumakLogo_.png">
+
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        /* Estilos específicos de recursos */
+        .resources-hero {
+            padding: var(--spacing-2xl) 0;
+            background: linear-gradient(135deg, var(--color-primary-lightest) 0%, var(--color-surface) 100%);
+        }
+
+        .resources-hero__title {
+            text-align: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .resources-hero__description {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto var(--spacing-xl);
+            color: var(--color-text-secondary);
+            font-size: 1.125rem;
+        }
+
+        .resources-filters {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            flex-wrap: wrap;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .filter-tag {
+            padding: 0.5rem 1.25rem;
+            background-color: var(--color-surface);
+            border: 2px solid var(--color-border);
+            border-radius: var(--border-radius-full);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .filter-tag:hover,
+        .filter-tag.active {
+            background-color: var(--color-primary);
+            border-color: var(--color-primary);
+            color: white;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .resource-card {
+            display: flex;
+            flex-direction: column;
+            background-color: var(--color-surface);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-normal);
+        }
+
+        .resource-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+        }
+
+        .resource-card__image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .resource-card__content {
+            padding: var(--spacing-lg);
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .resource-card__category {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background-color: var(--color-primary-lightest);
+            color: var(--color-primary);
+            font-size: var(--font-size-small);
+            font-weight: var(--font-weight-semibold);
+            border-radius: var(--border-radius-full);
+            margin-bottom: var(--spacing-sm);
+            width: fit-content;
+        }
+
+        .resource-card__title {
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .resource-card__description {
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-small);
+            line-height: var(--line-height-relaxed);
+            margin-bottom: var(--spacing-md);
+            flex-grow: 1;
+        }
+
+        .resource-card__meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: var(--spacing-sm);
+            border-top: 1px solid var(--color-border);
+            font-size: var(--font-size-small);
+            color: var(--color-text-tertiary);
+        }
+
+        .resource-card__duration,
+        .resource-card__level {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .cta-section {
+            padding: var(--spacing-3xl) 0;
+            background-color: var(--color-primary-lightest);
+            text-align: center;
+        }
+
+        .cta-section__title {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .cta-section__description {
+            max-width: 600px;
+            margin: 0 auto var(--spacing-xl);
+            color: var(--color-text-secondary);
+        }
+
+        @media (max-width: 767px) {
+            .resources-filters {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: var(--spacing-sm);
+            }
+
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        PÁGINA DE RECURSOS
+        US-027: Marketplace de servicios y plantillas
+        Muestra recursos educativos, plantillas y herramientas
+    -->
+    
+    <!-- Header -->
+    <header class="header" id="header">
+        <nav class="nav container">
+            <div class="nav__logo">
+                <a href="index.html" style="display: flex; align-items: center; gap: var(--spacing-xs);">
+                    <img src="images/SumakLogo_.png" alt="SUMAK Logo" class="nav__logo-img">
+                    <span class="nav__logo-text">SUMAK</span>
+                </a>
+            </div>
+            
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a href="index.html" class="nav__link">Inicio</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="index.html#soluciones" class="nav__link">Soluciones</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="recursos.html" class="nav__link">Recursos</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="mentores.html" class="nav__link">Mentores</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="contacto.html" class="nav__link">Contacto</a>
+                    </li>
+                </ul>
+                
+                <div class="nav__actions">
+                    <a href="login.html" class="btn btn--secondary">Iniciar Sesión</a>
+                    <a href="register.html" class="btn btn--primary">Comenzar Ahora</a>
+                </div>
+            </div>
+
+            <button class="nav__toggle" id="nav-toggle" aria-label="Abrir menú">
+                <span class="nav__toggle-icon"></span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="main">
+        <!-- Hero Section -->
+        <section class="resources-hero">
+            <div class="container">
+                <h1 class="resources-hero__title">Recursos para tu Negocio</h1>
+                <p class="resources-hero__description">
+                    Plantillas, guías y herramientas prácticas para impulsar tu microempresa
+                </p>
+
+                <!-- Filtros -->
+                <div class="resources-filters">
+                    <button class="filter-tag active" data-category="all">
+                        Todos
+                    </button>
+                    <button class="filter-tag" data-category="finanzas">
+                        💰 Finanzas
+                    </button>
+                    <button class="filter-tag" data-category="marketing">
+                        📱 Marketing
+                    </button>
+                    <button class="filter-tag" data-category="ventas">
+                        🛍️ Ventas
+                    </button>
+                    <button class="filter-tag" data-category="legal">
+                        📋 Legal
+                    </button>
+                    <button class="filter-tag" data-category="operaciones">
+                        ⚙️ Operaciones
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Grid de Recursos -->
+        <section style="padding: var(--spacing-3xl) 0; background-color: var(--color-background);">
+            <div class="container">
+                <div class="resources-grid">
+                    <!-- Recurso 1: Plantilla Control de Gastos -->
+                    <article class="resource-card" data-category="finanzas">
+                        <div class="resource-card__image">
+                            📊
+                        </div>
+                        <div class="resource-card__content">
+                            <span class="resource-card__category">Finanzas</span>
+                            <h3 class="resource-card__title">Plantilla: Control de Gastos</h3>
+                            <p class="resource-card__description">
+                                Registra tus ingresos y gastos diarios de forma simple. Separa gastos personales 
+                                del negocio automáticamente y obtén reportes mensuales.
+                            </p>
+                            <div class="resource-card__meta">
+                                <span class="resource-card__duration">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <polyline points="12 6 12 12 16 14"/>
+                                    </svg>
+                                    10 min setup
+                                </span>
+                                <span class="resource-card__level">Básico</span>
+                            </div>
+                            <button class="btn btn--primary btn--full" style="margin-top: var(--spacing-md);">
+                                Descargar Gratis
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Recurso 2: Guía de Marketing Digital -->
+                    <article class="resource-card" data-category="marketing">
+                        <div class="resource-card__image">
+                            📱
+                        </div>
+                        <div class="resource-card__content">
+                            <span class="resource-card__category">Marketing</span>
+                            <h3 class="resource-card__title">Guía: Marketing en Redes Sociales</h3>
+                            <p class="resource-card__description">
+                                Aprende a crear contenido atractivo para Facebook e Instagram. Incluye 
+                                plantillas de publicaciones y calendario de contenidos.
+                            </p>
+                            <div class="resource-card__meta">
+                                <span class="resource-card__duration">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/>
+                                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+                                    </svg>
+                                    15 páginas
+                                </span>
+                                <span class="resource-card__level">Intermedio</span>
+                            </div>
+                            <button class="btn btn--primary btn--full" style="margin-top: var(--spacing-md);">
+                                Descargar Gratis
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Recurso 3: Calculadora de Precios -->
+                    <article class="resource-card" data-category="finanzas">
+                        <div class="resource-card__image">
+                            🧮
+                        </div>
+                        <div class="resource-card__content">
+                            <span class="resource-card__category">Finanzas</span>
+                            <h3 class="resource-card__title">Herramienta: Calculadora de Precios</h3>
+                            <p class="resource-card__description">
+                                Calcula el precio correcto de tus productos considerando costos, margen 
+                                de ganancia y competencia. Incluye guía de uso.
+                            </p>
+                            <div class="resource-card__meta">
+                                <span class="resource-card__duration">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <polyline points="12 6 12 12 16 14"/>
+                                    </svg>
+                                    5 min uso
+                                </span>
+                                <span class="resource-card__level">Básico</span>
+                            </div>
+                            <button class="btn btn--primary btn--full" style="margin-top: var(--spacing-md);">
+                                Usar Herramienta
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Recurso 4: Plantilla Factura -->
+                    <article class="resource-card" data-category="legal">
+                        <div class="resource-card__image">
+                            📄
+                        </div>
+                        <div class="resource-card__content">
+                            <span class="resource-card__category">Legal</span>
+                            <h3 class="resource-card__title">Plantilla: Factura y Recibo</h3>
+                            <p class="resource-card__description">
+                                Genera facturas y recibos profesionales en minutos. Formato editable 
+                                adaptado a la normativa peruana.
+                            </p>
+                            <div class="resource-card__meta">
+                                <span class="resource-card__duration">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <polyline points="12 6 12 12 16 14"/>
+                                    </svg>
+                                    5 min setup
+                                </span>
+                                <span class="resource-card__level">Básico</span>
+                            </div>
+                            <button class="btn btn--primary btn--full" style="margin-top: var(--spacing-md);">
+                                Descargar Gratis
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Recurso 5: Guía Atención al Cliente -->
+                    <article class="resource-card" data-category="ventas">
+                        <div class="resource-card__image">
+                            😊
+                        </div>
+                        <div class="resource-card__content">
+                            <span class="resource-card__category">Ventas</span>
+                            <h3 class="resource-card__title">Guía: Atención al Cliente Excelente</h3>
+                            <p class="resource-card__description">
+                                Técnicas probadas para fidelizar clientes y aumentar ventas mediante 
+                                un servicio excepcional. Incluye scripts y ejemplos reales.
+                            </p>
+                            <div class="resource-card__meta">
+                                <span class="resource-card__duration">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/>
+                                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+                                    </svg>
+                                    12 páginas
+                                </span>
+                                <span class="resource-card__level">Intermedio</span>
+                            </div>
+                            <button class="btn btn--primary btn--full" style="margin-top: var(--spacing-md);">
+                                Descargar Gratis
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Recurso 6: Inventario Simple -->
+                    <article class="resource-card" data-category="operaciones">
+                        <div class="resource-card__image">
+                            📦
+                        </div>
+                        <div class="resource-card__content">
+                            <span class="resource-card__category">Operaciones</span>
+                            <h3 class="resource-card__title">Plantilla: Control de Inventario</h3>
+                            <p class="resource-card__description">
+                                Sistema simple para controlar tu stock. Registra entradas, salidas y 
+                                recibe alertas cuando un producto está por agotarse.
+                            </p>
+                            <div class="resource-card__meta">
+                                <span class="resource-card__duration">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <polyline points="12 6 12 12 16 14"/>
+                                    </svg>
+                                    15 min setup
+                                </span>
+                                <span class="resource-card__level">Básico</span>
+                            </div>
+                            <button class="btn btn--primary btn--full" style="margin-top: var(--spacing-md);">
+                                Descargar Gratis
+                            </button>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="container">
+                <h2 class="cta-section__title">¿Necesitas un recurso específico?</h2>
+                <p class="cta-section__description">
+                    Contáctanos y cuéntanos qué herramienta o plantilla necesitas para tu negocio. 
+                    Nuestro equipo trabajará para crearlo.
+                </p>
+                <a href="contacto.html" class="btn btn--primary btn--large">
+                    Solicitar Recurso
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__container container">
+            <div class="footer__grid">
+                <div class="footer__column">
+                    <div class="footer__logo">
+                        <img src="images/SumakLogo_.png" alt="SUMAK Logo" class="footer__logo-img">
+                        <span class="footer__logo-text">SUMAK</span>
+                    </div>
+                    <p class="footer__description">
+                        Formación empresarial práctica y accesible para microemprendedores peruanos.
+                    </p>
+                </div>
+
+                <div class="footer__column">
+                    <h4 class="footer__title">Plataforma</h4>
+                    <ul class="footer__links">
+                        <li><a href="index.html#soluciones" class="footer__link">Soluciones</a></li>
+                        <li><a href="recursos.html" class="footer__link">Recursos</a></li>
+                        <li><a href="mentores.html" class="footer__link">Mentores</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer__column">
+                    <h4 class="footer__title">Soporte</h4>
+                    <ul class="footer__links">
+                        <li><a href="contacto.html" class="footer__link">Contacto</a></li>
+                        <li><a href="mailto:soporte@sumak.com" class="footer__link">soporte@sumak.com</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer__column">
+                    <h4 class="footer__title">Legal</h4>
+                    <ul class="footer__links">
+                        <li><a href="#" class="footer__link">Términos y Condiciones</a></li>
+                        <li><a href="#" class="footer__link">Política de Privacidad</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer__bottom">
+                <p class="footer__copyright">
+                    &copy; 2025 SUMAK. Todos los derechos reservados.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        // Filtrado de recursos
+        document.addEventListener('DOMContentLoaded', () => {
+            const filterButtons = document.querySelectorAll('.filter-tag');
+            const resourceCards = document.querySelectorAll('.resource-card');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const category = button.dataset.category;
+
+                    // Actualizar botones activos
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    // Filtrar recursos
+                    resourceCards.forEach(card => {
+                        if (category === 'all' || card.dataset.category === category) {
+                            card.style.display = 'flex';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

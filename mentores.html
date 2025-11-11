@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentores</title>
+     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="images/SumakLogo_.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/SumakLogo_.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/SumakLogo_.png">
+    <link rel="shortcut icon" href="images/SumakLogo_.png">
+
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        /* Estilos específicos de mentores */
+        .mentors-hero {
+            padding: var(--spacing-2xl) 0;
+            background: linear-gradient(135deg, var(--color-primary-lightest) 0%, var(--color-surface) 100%);
+            text-align: center;
+        }
+
+        .mentors-hero__title {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .mentors-hero__description {
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--color-text-secondary);
+            font-size: 1.125rem;
+        }
+
+        .mentors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            padding: var(--spacing-3xl) 0;
+        }
+
+        .mentor-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: var(--spacing-xl);
+            background-color: var(--color-surface);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-normal);
+            text-align: center;
+        }
+
+        .mentor-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+        }
+
+        .mentor-card__avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: var(--border-radius-full);
+            object-fit: cover;
+            margin-bottom: var(--spacing-md);
+            border: 4px solid var(--color-primary-lightest);
+        }
+
+        .mentor-card__name {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .mentor-card__title {
+            color: var(--color-primary);
+            font-weight: var(--font-weight-semibold);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .mentor-card__specialties {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .specialty-tag {
+            padding: 0.25rem 0.75rem;
+            background-color: var(--color-primary-lightest);
+            color: var(--color-primary-dark);
+            font-size: var(--font-size-small);
+            border-radius: var(--border-radius-full);
+        }
+
+        .mentor-card__description {
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-small);
+            line-height: var(--line-height-relaxed);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .mentor-card__stats {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            padding: var(--spacing-sm) 0;
+            margin-bottom: var(--spacing-md);
+            border-top: 1px solid var(--color-border);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .mentor-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .mentor-stat__value {
+            font-size: 1.5rem;
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+        }
+
+        .mentor-stat__label {
+            font-size: var(--font-size-small);
+            color: var(--color-text-tertiary);
+        }
+
+        .how-it-works-mentors {
+            padding: var(--spacing-3xl) 0;
+            background-color: var(--color-background);
+        }
+
+        .steps-simple {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-xl);
+            margin-top: var(--spacing-xl);
+        }
+
+        .step-simple {
+            text-align: center;
+        }
+
+        .step-simple__number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background-color: var(--color-primary);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: var(--font-weight-black);
+            border-radius: var(--border-radius-full);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .step-simple__title {
+            font-size: 1.125rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .step-simple__description {
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-small);
+        }
+
+        @media (max-width: 767px) {
+            .mentors-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        PÁGINA DE MENTORES
+        US-023: Contactar a mentor
+        US-010: Unirse a grupos de WhatsApp de mi rubro
+    -->
+    
+    <!-- Header -->
+    <header class="header" id="header">
+        <nav class="nav container">
+            <div class="nav__logo">
+                <a href="index.html" style="display: flex; align-items: center; gap: var(--spacing-xs);">
+                    <img src="images/SumakLogo_.png" alt="SUMAK Logo" class="nav__logo-img">
+                    <span class="nav__logo-text">SUMAK</span>
+                </a>
+            </div>
+            
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a href="index.html" class="nav__link">Inicio</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="index.html#soluciones" class="nav__link">Soluciones</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="recursos.html" class="nav__link">Recursos</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="mentores.html" class="nav__link">Mentores</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="contacto.html" class="nav__link">Contacto</a>
+                    </li>
+                </ul>
+                
+                <div class="nav__actions">
+                    <a href="login.html" class="btn btn--secondary">Iniciar Sesión</a>
+                    <a href="register.html" class="btn btn--primary">Comenzar Ahora</a>
+                </div>
+            </div>
+
+            <button class="nav__toggle" id="nav-toggle" aria-label="Abrir menú">
+                <span class="nav__toggle-icon"></span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="main">
+        <!-- Hero Section -->
+        <section class="mentors-hero">
+            <div class="container">
+                <h1 class="mentors-hero__title">Conoce a Nuestros Mentores</h1>
+                <p class="mentors-hero__description">
+                    Expertos comprometidos con el crecimiento de tu negocio. Recibe asesoría 
+                    personalizada de profesionales con experiencia real en el emprendimiento.
+                </p>
+            </div>
+        </section>
+
+        <!-- Grid de Mentores -->
+        <section style="background-color: var(--color-surface);">
+            <div class="container">
+                <div class="mentors-grid">
+                    <!-- Mentor 1 -->
+                    <article class="mentor-card">
+                        <img src="images/MariaRodriguez.png" alt="María Rodríguez" class="mentor-card__avatar">
+                        <h3 class="mentor-card__name">María Rodríguez</h3>
+                        <p class="mentor-card__title">Especialista en Finanzas para MYPES</p>
+                        
+                        <div class="mentor-card__specialties">
+                            <span class="specialty-tag">Contabilidad</span>
+                            <span class="specialty-tag">Control de costos</span>
+                            <span class="specialty-tag">Flujo de caja</span>
+                        </div>
+
+                        <p class="mentor-card__description">
+                            Con 15 años de experiencia ayudando a microempresarios a organizar 
+                            sus finanzas y maximizar rentabilidad.
+                        </p>
+
+                        <div class="mentor-card__stats">
+                            <div class="mentor-stat">
+                                <span class="mentor-stat__value">120+</span>
+                                <span class="mentor-stat__label">Alumnos</span>
+                            </div>
+                            <div class="mentor-stat">
+                                <span class="mentor-stat__value">4.9</span>
+                                <span class="mentor-stat__label">Rating</span>
+                            </div>
+                        </div>
+
+                        <button class="btn btn--primary btn--full" onclick="showToast('Para contactar a María, primero regístrate en SUMAK', 'info')">
+                            Agendar Sesión
+                        </button>
+                    </article>
+
+                    <!-- Mentor 2 -->
+                    <article class="mentor-card">
+                        <img src="images/JuanMendez.png" alt="Juan Mendez" class="mentor-card__avatar">
+                        <h3 class="mentor-card__name">Juan Mendez</h3>
+                        <p class="mentor-card__title">Experto en Marketing Digital</p>
+                        
+                        <div class="mentor-card__specialties">
+                            <span class="specialty-tag">Redes Sociales</span>
+                            <span class="specialty-tag">WhatsApp Business</span>
+                            <span class="specialty-tag">Publicidad online</span>
+                        </div>
+
+                        <p class="mentor-card__description">
+                            Ayudo a microempresarios a aumentar sus ventas mediante estrategias 
+                            digitales simples y efectivas.
+                        </p>
+
+                        <div class="mentor-card__stats">
+                            <div class="mentor-stat">
+                                <span class="mentor-stat__value">85+</span>
+                                <span class="mentor-stat__label">Alumnos</span>
+                            </div>
+                            <div class="mentor-stat">
+                                <span class="mentor-stat__value">4.8</span>
+                                <span class="mentor-stat__label">Rating</span>
+                            </div>
+                        </div>
+
+                        <button class="btn btn--primary btn--full" onclick="showToast('Para contactar a Carlos, primero regístrate en SUMAK', 'info')">
+                            Agendar Sesión
+                        </button>
+                    </article>
+
+                    <!-- Mentor 3 -->
+                    <article class="mentor-card">
+                        <img src="images/AnaTorres.jpg" alt="Ana Torres" class="mentor-card__avatar">
+                        <h3 class="mentor-card__name">Ana Torres</h3>
+                        <p class="mentor-card__title">Consultora en Atención al Cliente</p>
+                        
+                        <div class="mentor-card__specialties">
+                            <span class="specialty-tag">Fidelización</span>
+                            <span class="specialty-tag">Experiencia cliente</span>
+                            <span class="specialty-tag">Ventas</span>
+                        </div>
+
+                        <p class="mentor-card__description">
+                            Especialista en convertir clientes ocasionales en embajadores de tu 
+                            marca mediante un servicio excepcional.
+                        </p>
+
+                        <div class="mentor-card__stats">
+                            <div class="mentor-stat">
+                                <span class="mentor-stat__value">95+</span>
+                                <span class="mentor-stat__label">Alumnos</span>
+                            </div>
+                            <div class="mentor-stat">
+                                <span class="mentor-stat__value">5.0</span>
+                                <span class="mentor-stat__label">Rating</span>
+                            </div>
+                        </div>
+
+                        <button class="btn btn--primary btn--full" onclick="showToast('Para contactar a Ana, primero regístrate en SUMAK', 'info')">
+                            Agendar Sesión
+                        </button>
+                    </article>
+
+                    <!-- Mentor 4 -->
+                    <article class="mentor-card">
+                        <img src="images/JoseRamirez.png" alt="José Ramírez" class="mentor-card__avatar">
+                        <h3 class="mentor-card__name">José Ramírez</h3>
+                        <p class="mentor-card__title">Asesor en Operaciones</p>
+                        
+                        <div class="mentor-card__specialties">
+                            <span class="specialty-tag">Inventario</span>
+                            <span class="specialty-tag">Logística</span>
+                            <span class="specialty-tag">Proveedores</span>
+                        </div>
+
+                        <p class="mentor-card__description">
+                            Optimizo procesos operativos para que tu negocio funcione de manera 
+                            eficiente y rentable.
+                        </p>
+
+                        <div class="mentor-card__stats">
+                            <div class="mentor-stat">
+                                <span class="mentor-stat__value">70+</span>
+                                <span class="mentor-stat__label">Alumnos</span>
+                            </div>
+                            <div class="mentor-stat">
+                                <span class="mentor-stat__value">4.7</span>
+                                <span class="mentor-stat__label">Rating</span>
+                            </div>
+                        </div>
+
+                        <button class="btn btn--primary btn--full" onclick="showToast('Para contactar a José, primero regístrate en SUMAK', 'info')">
+                            Agendar Sesión
+                        </button>
+                    </article>
+
+                    <!-- Mentor 5 -->
+                    <article class="mentor-card">
+                        <img src="images/LuciaParedes.png" alt="Lucía Paredes" class="mentor-card__avatar">
+                        <h3 class="mentor-card__name">Lucía Paredes</h3>
+                        <p class="mentor-card__title">Coach de Emprendimiento</p>
+                        
+                        <div class="mentor-card__specialties">
+                            <span class="specialty-tag">Mindset</span>
+                            <span class="specialty-tag">Productividad</span>
+                            <span class="specialty-tag">Liderazgo</span>
+                        </div>
+
+                        <p class="mentor-card__description">
+                            Te ayudo a desarrollar la mentalidad y hábitos necesarios para llevar 
+                            tu emprendimiento al siguiente nivel.
+                        </p>
+
+                        <div class="mentor-card__stats">
+                            <div class="mentor-stat">
+                                <span class="mentor-stat__value">110+</span>
+                                <span class="mentor-stat__label">Alumnos</span>
+                            </div>
+                            <div class="mentor-stat">
+                                <span class="mentor-stat__value">4.9</span>
+                                <span class="mentor-stat__label">Rating</span>
+                            </div>
+                        </div>
+
+                        <button class="btn btn--primary btn--full" onclick="showToast('Para contactar a Lucía, primero regístrate en SUMAK', 'info')">
+                            Agendar Sesión
+                        </button>
+                    </article>
+
+                    <!-- Mentor 6 -->
+                    <article class="mentor-card">
+                        <img src="images/RobertoFlores.png" alt="Roberto Flores" class="mentor-card__avatar">
+                        <h3 class="mentor-card__name">Roberto Flores</h3>
+                        <p class="mentor-card__title">Especialista en Formalización</p>
+                        
+                        <div class="mentor-card__specialties">
+                            <span class="specialty-tag">Licencias</span>
+                            <span class="specialty-tag">Tributario</span>
+                            <span class="specialty-tag">Legal</span>
+                        </div>
+
+                        <p class="mentor-card__description">
+                            Guío a microempresarios en el proceso de formalización y cumplimiento 
+                            de obligaciones tributarias.
+                        </p>
+
+                        <div class="mentor-card__stats">
+                            <div class="mentor-stat">
+                                <span class="mentor-stat__value">65+</span>
+                                <span class="mentor-stat__label">Alumnos</span>
+                            </div>
+                            <div class="mentor-stat">
+                                <span class="mentor-stat__value">4.8</span>
+                                <span class="mentor-stat__label">Rating</span>
+                            </div>
+                        </div>
+
+                        <button class="btn btn--primary btn--full" onclick="showToast('Para contactar a Roberto, primero regístrate en SUMAK', 'info')">
+                            Agendar Sesión
+                        </button>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cómo funciona la mentoría -->
+        <section class="how-it-works-mentors">
+            <div class="container">
+                <div class="section__header">
+                    <h2 class="section__title">¿Cómo funciona la mentoría?</h2>
+                    <p class="section__description">
+                        Proceso simple para conectarte con tu mentor ideal
+                    </p>
+                </div>
+
+                <div class="steps-simple">
+                    <div class="step-simple">
+                        <div class="step-simple__number">1</div>
+                        <h3 class="step-simple__title">Regístrate</h3>
+                        <p class="step-simple__description">
+                            Crea tu cuenta y completa tu perfil de negocio
+                        </p>
+                    </div>
+
+                    <div class="step-simple">
+                        <div class="step-simple__number">2</div>
+                        <h3 class="step-simple__title">Elige tu mentor</h3>
+                        <p class="step-simple__description">
+                            Selecciona al experto según tu necesidad específica
+                        </p>
+                    </div>
+
+                    <div class="step-simple">
+                        <div class="step-simple__number">3</div>
+                        <h3 class="step-simple__title">Agenda tu sesión</h3>
+                        <p class="step-simple__description">
+                            Reserva el horario que mejor te convenga
+                        </p>
+                    </div>
+
+                    <div class="step-simple">
+                        <div class="step-simple__number">4</div>
+                        <h3 class="step-simple__title">Recibe asesoría</h3>
+                        <p class="step-simple__description">
+                            Conecta por videollamada y recibe orientación personalizada
+                        </p>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: var(--spacing-xl);">
+                    <a href="register.html" class="btn btn--primary btn--large">
+                        Comenzar Ahora
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__container container">
+            <div class="footer__grid">
+                <div class="footer__column">
+                    <div class="footer__logo">
+                        <img src="images/SumakLogo_.png" alt="SUMAK Logo" class="footer__logo-img">
+                        <span class="footer__logo-text">SUMAK</span>
+                    </div>
+                    <p class="footer__description">
+                        Formación empresarial práctica y accesible para microemprendedores peruanos.
+                    </p>
+                </div>
+
+                <div class="footer__column">
+                    <h4 class="footer__title">Plataforma</h4>
+                    <ul class="footer__links">
+                        <li><a href="index.html#soluciones" class="footer__link">Soluciones</a></li>
+                        <li><a href="recursos.html" class="footer__link">Recursos</a></li>
+                        <li><a href="mentores.html" class="footer__link">Mentores</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer__column">
+                    <h4 class="footer__title">Soporte</h4>
+                    <ul class="footer__links">
+                        <li><a href="contacto.html" class="footer__link">Contacto</a></li>
+                        <li><a href="mailto:soporte@sumak.com" class="footer__link">soporte@sumak.com</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer__column">
+                    <h4 class="footer__title">Legal</h4>
+                    <ul class="footer__links">
+                        <li><a href="#" class="footer__link">Términos y Condiciones</a></li>
+                        <li><a href="#" class="footer__link">Política de Privacidad</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer__bottom">
+                <p class="footer__copyright">
+                    &copy; 2025 SUMAK. Todos los derechos reservados.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
