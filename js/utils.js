@@ -4,11 +4,6 @@
  * Descripción: Funciones helper y utilidades reutilizables
  */
 
-// ========================================
-// VALIDACIÓN DE FORMULARIOS
-// US-017: Validación en tiempo real
-// ========================================
-
 /**
  * Valida un campo de email
  * @param {string} email - Email a validar
@@ -118,11 +113,6 @@ const validateField = (input) => {
     return true;
 };
 
-// ========================================
-// ALMACENAMIENTO LOCAL
-// US-035: Perfil del usuario
-// ========================================
-
 /**
  * Guarda datos en localStorage
  * @param {string} key - Clave
@@ -166,11 +156,6 @@ const removeFromLocalStorage = (key) => {
         return false;
     }
 };
-
-// ========================================
-// GESTIÓN DE SESIÓN
-// US-035: Perfil del usuario
-// ========================================
 
 /**
  * Obtiene el usuario actual
@@ -218,10 +203,6 @@ const redirectToDashboard = (role) => {
     const destination = dashboards[role] || 'dashboard-emprendedor.html';
     window.location.href = destination;
 };
-
-// ========================================
-// UTILIDADES DE UI
-// ========================================
 
 /**
  * Muestra un toast notification
@@ -312,9 +293,6 @@ const debounce = (func, wait = 300) => {
     };
 };
 
-// ========================================
-// ANIMACIONES CSS
-// ========================================
 
 // Agregar estilos de animación al documento
 const style = document.createElement('style');
@@ -351,10 +329,6 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
-
-// ========================================
-// EXPORTAR FUNCIONES
-// ========================================
 
 // Si se usa como módulo ES6
 if (typeof module !== 'undefined' && module.exports) {
