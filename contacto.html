@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contacto</title>
-     
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="images/SumakLogo_.png">
     <link rel="icon" type="image/png" sizes="16x16" href="images/SumakLogo_.png">
@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/responsive.css">
     <style>
-        /* Estilos específicos de contacto */
+
         .contact-hero {
             padding: var(--spacing-2xl) 0;
             background: linear-gradient(135deg, var(--color-primary-lightest) 0%, var(--color-surface) 100%);
@@ -248,7 +248,7 @@
                         <h2 class="contact-info__title">Contáctanos</h2>
                         <p style="color: var(--color-text-secondary); margin-bottom: var(--spacing-lg);">
                             Elige el canal que prefieras para comunicarte con nosotros. 
-                            Respondemos en menos de 24 horas.
+                            Responderemos en menos de 24 horas.
                         </p>
 
                         <!-- WhatsApp -->
@@ -608,11 +608,9 @@
     <script src="js/utils.js"></script>
     <script src="js/app.js"></script>
     <script>
-        // Formulario de contacto
         document.addEventListener('DOMContentLoaded', () => {
             const contactForm = document.getElementById('contact-form');
 
-            // Validación en tiempo real
             const inputs = contactForm.querySelectorAll('input[required], select[required], textarea[required]');
             inputs.forEach(input => {
                 input.addEventListener('blur', () => validateField(input));
@@ -623,7 +621,6 @@
                 }, 500));
             });
 
-            // Envío del formulario
             contactForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
 
@@ -631,7 +628,6 @@
                 const successMessage = document.getElementById('contact-success');
                 const errorMessage = document.getElementById('contact-error');
 
-                // Validar todos los campos
                 let isValid = true;
                 inputs.forEach(input => {
                     if (!validateField(input)) {
@@ -646,15 +642,12 @@
                     return;
                 }
 
-                // Mostrar loader
                 toggleButtonLoader(submitBtn, true);
                 errorMessage.style.display = 'none';
                 successMessage.style.display = 'none';
 
-                // Simular envío (en producción sería una llamada real a un backend)
                 await new Promise(resolve => setTimeout(resolve, 2000));
 
-                // Mostrar éxito
                 successMessage.innerHTML = `
                     <strong>¡Mensaje enviado exitosamente!</strong><br>
                     Gracias por contactarnos. Te responderemos en menos de 24 horas.
@@ -662,10 +655,8 @@
                 successMessage.style.display = 'block';
                 toggleButtonLoader(submitBtn, false);
 
-                // Limpiar formulario
                 contactForm.reset();
 
-                // Mostrar toast
                 showToast('¡Mensaje enviado exitosamente!', 'success');
             });
 

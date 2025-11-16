@@ -1,14 +1,3 @@
-/**
- * APLICACIÓN PRINCIPAL
- * Archivo: js/app.js
- * Descripción: Lógica principal de la landing page
- * Implementa navegación, scroll, y funcionalidades generales
- */
-
-// ========================================
-// INICIALIZACIÓN
-// ========================================
-
 document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
     initScrollEffects();
@@ -17,21 +6,12 @@ document.addEventListener('DOMContentLoaded', () => {
     checkAuthStatus();
 });
 
-// ========================================
-// NAVEGACIÓN
-// US-017: Navegación clara y accesible
-// ========================================
-
-/**
- * Inicializa el sistema de navegación
- */
 function initNavigation() {
     const navToggle = document.getElementById('nav-toggle');
     const navMenu = document.getElementById('nav-menu');
     const navLinks = document.querySelectorAll('.nav__link');
     const header = document.getElementById('header');
 
-    // Toggle menú móvil
     if (navToggle) {
         navToggle.addEventListener('click', () => {
             navMenu.classList.toggle('is-open');
@@ -42,7 +22,6 @@ function initNavigation() {
         });
     }
 
-    // Cerrar menú al hacer clic en un enlace
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
             if (navMenu.classList.contains('is-open')) {
@@ -51,8 +30,6 @@ function initNavigation() {
             }
         });
     });
-
-    // Cerrar menú al hacer clic fuera
     document.addEventListener('click', (e) => {
         if (navMenu.classList.contains('is-open') &&
             !navMenu.contains(e.target) &&
@@ -61,8 +38,6 @@ function initNavigation() {
             navToggle.setAttribute('aria-expanded', 'false');
         }
     });
-
-    // Cambiar apariencia del header al hacer scroll
     let lastScroll = 0;
     window.addEventListener('scroll', () => {
         const currentScroll = window.pageYOffset;
@@ -76,14 +51,6 @@ function initNavigation() {
         lastScroll = currentScroll;
     });
 }
-
-// ========================================
-// SMOOTH SCROLL
-// ========================================
-
-/**
- * Inicializa el scroll suave para enlaces internos
- */
 function initSmoothScroll() {
     const links = document.querySelectorAll('a[href^="#"]');
 
@@ -91,7 +58,6 @@ function initSmoothScroll() {
         link.addEventListener('click', (e) => {
             const href = link.getAttribute('href');
 
-            // Ignorar enlaces sin destino válido
             if (href === '#' || !href) return;
 
             const target = document.querySelector(href);
@@ -99,22 +65,13 @@ function initSmoothScroll() {
                 e.preventDefault();
                 smoothScrollTo(href);
 
-                // Actualizar URL sin recargar
                 history.pushState(null, null, href);
             }
         });
     });
 }
 
-// ========================================
-// EFECTOS DE SCROLL
-// ========================================
-
-/**
- * Inicializa efectos visuales al hacer scroll
- */
 function initScrollEffects() {
-    // Agregar clase CSS para efectos
     const style = document.createElement('style');
     style.textContent = `
         .header--scrolled {
@@ -135,23 +92,13 @@ function initScrollEffects() {
     document.head.appendChild(style);
 }
 
-// ========================================
-// ANIMACIONES AL HACER SCROLL
-// Intersection Observer API
-// ========================================
-
-/**
- * Inicializa animaciones cuando elementos entran en viewport
- */
 function initAnimationsOnScroll() {
     const animatedElements = document.querySelectorAll(
         '.solution-card, .step, .impact-metric, .pricing-card, .testimonial-card'
     );
 
-    // Agregar clase inicial
     animatedElements.forEach(el => el.classList.add('fade-in'));
 
-    // Configurar Intersection Observer
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
@@ -169,20 +116,11 @@ function initAnimationsOnScroll() {
     animatedElements.forEach(el => observer.observe(el));
 }
 
-// ========================================
-// VERIFICACIÓN DE AUTENTICACIÓN
-// US-035: Perfil del usuario
-// ========================================
-
-/**
- * Verifica si hay usuario logueado y actualiza la UI
- */
 function checkAuthStatus() {
     const currentUser = getCurrentUser();
     const navActions = document.querySelector('.nav__actions');
 
     if (currentUser && navActions) {
-        // Usuario logueado - mostrar menú personalizado
         navActions.innerHTML = `
             <a href="${getDashboardUrl(currentUser.role)}" class="btn btn--secondary">
                 Mi Panel
@@ -208,16 +146,10 @@ function getDashboardUrl(role) {
     return dashboards[role] || 'dashboard-emprendedor.html';
 }
 
-// ========================================
-// MANEJO DE ERRORES GLOBAL
-// ========================================
-
 window.addEventListener('error', (e) => {
     console.error('Error capturado:', e.error);
-    // En producción, enviar a servicio de logging
 });
 
 window.addEventListener('unhandledrejection', (e) => {
     console.error('Promesa rechazada no manejada:', e.reason);
-    // En producción, enviar a servicio de logging
 });
